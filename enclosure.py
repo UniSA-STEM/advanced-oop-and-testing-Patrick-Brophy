@@ -6,9 +6,16 @@ ID: 110070814
 Username: bropy009
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
-
+enclosure_register = {}
 class Enclosure:
-    def __init__(self):
-        self.__biome = biome
-        self.__clean = True
+    counter = 1
+    def __init__(self, habitat: str, size: int) -> None:
+        self.__id = f"Enclosure.{Enclosure.counter}"
+        self.__habitat = habitat
+        self.__is_clean = True
         self.__has_animal = False
+        self.__size = size
+        Enclosure.counter += 1
+        enclosure_register[self.__id] = self
+
+    def create_enclosure(self) -> None:
