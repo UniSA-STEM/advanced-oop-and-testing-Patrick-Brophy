@@ -21,6 +21,7 @@ class Animal:
         self.__biome = biome
         self.__diet = diet
         self.__is_healthy = 'Healthy'
+        self.__health_record = {}
         self.__enclosure_ID = None
         self.__on_display = False
         Animal.animal_counter += 1
@@ -30,7 +31,7 @@ class Animal:
         return f""
 
     def get_display_data(self) -> str:
-        common_data = f"{self.__family:<10}{self.__species:<13} {self.__name:<14} {self.__age:<5} {self.__gender:<8} {self.__biome:<13} {self.__diet:<15}"
+        common_data = f"{self.__family:<10}{self.__species:<13} {self.__name:<14} {self.__age:<5} {self.__gender:<13}{ 'Yes' if self.__on_display else 'No':<8} {self.__biome:<13} {self.__diet:<15}"
         return common_data
 
     def get_id(self) -> str: return self.__id
@@ -40,12 +41,11 @@ class Animal:
     @staticmethod
     def display_animals():
         display_details = []
-        print('-------------------------- Animal Register ---------------------------')
-        print("ANIMAL ID | CLASS   |   SPECIES   |     NAME    |  AGE | GENDER |   HABITAT   |     DIET     |   FEATURES")
+        print("-" * 45, 'Animal Register', "-" * 45)
+        print("ANIMAL ID | CLASS   |   SPECIES   |     NAME    |  AGE | GENDER | ON DISPLAY |   HABITAT   |     DIET     |   FEATURES")
         for id, details in animal_register.items():
             display_details.append(f"{id:<10}: {details.get_display_data()}")
         return "\n".join(display_details)
-
 class Mammal(Animal):
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,
                  coat_colour: str,
@@ -129,8 +129,9 @@ def create_animal(**kwargs) -> None | Mammal | Reptile | Bird:
         return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, coat=coat, coat_colour=coat_colour)
     elif animal_family == 'Reptile':
         return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, skin=skin, skin_colour=skin_colour)
-    elif animal_family == 'Bird':
+    else:
         return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, fly=fly, wing_span=wing_span)
+
 
 animal1 = Mammal('Koala', 'George', 1, 'Male', 'Woods', 'Herbivore', 'Skin', 'Blue')
 animal2 = Mammal('Koala', 'Paul', 2, 'Female', 'Rainforest', 'Herbivore', 'Fur', 'Blue')
