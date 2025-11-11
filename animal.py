@@ -30,7 +30,8 @@ class Animal:
         return f""
 
     def get_display_data(self) -> str:
-        return animal_register.items()
+        common_data = f"{self.__family:<10}{self.__species:<13} {self.__name:<14} {self.__age:<5} {self.__gender:<8} {self.__biome:<13} {self.__diet:<15}"
+        return common_data
 
     def get_id(self) -> str: return self.__id
     def get_name(self) -> str: return self.__name
@@ -40,7 +41,7 @@ class Animal:
     def display_animals():
         display_details = []
         print('------ Animal Register------')
-        print("ANIMAL ID | CLASS   |   SPECIES   |     NAME    |  AGE | GENDER |   HABITAT   |   DIET")
+        print("ANIMAL ID | CLASS   |   SPECIES   |     NAME    |  AGE | GENDER |   HABITAT   |     DIET     |   FEATURES")
         for id, details in animal_register.items():
             display_details.append(f"{id:<10}: {details.get_display_data()}")
         return "\n".join(display_details)
@@ -51,20 +52,32 @@ class Mammal(Animal):
         self.__coat = coat
         self.__coat_colour = coat_colour
 
+    def get_display_data(self) -> str:
+        base_data = super().get_display_data()
+        mammal_data = f"{self.__coat:<7} {self.__coat_colour}"
+        return base_data + mammal_data
+
 class Reptile(Animal):
     def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, skin: str, skin_colour: str, **kwargs) -> None:
         super().__init__(family='Reptile', species=species, name=name, age=age, gender=gender, biome=biome, diet=diet, **kwargs)
         self.__skin = skin
         self.__skin_colour = skin_colour
 
+    def get_display_data(self) -> str:
+        base_data = super().get_display_data()
+        reptile_data = f"{self.__skin:<7} {self.__skin_colour}"
+        return base_data + reptile_data
+
 class Bird(Animal):
     def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, fly: str, wing_span: int, **kwargs) -> None:
         super().__init__(family='Bird', name=name, age=age, gender=gender, species=species, biome=biome, diet=diet, **kwargs)
-        if fly:
-            self.__fly = True
-        else:
-            self.__fly = False
+        self.__fly = fly
         self.__wing_span = wing_span
+
+    def get_display_data(self) -> str:
+        base_data = super().get_display_data()
+        bird_data = f"{self.__fly:<7} {self.__wing_span}"
+        return base_data + bird_data
 
 def create_animal(**kwargs) -> Animal:
     families = {
@@ -125,4 +138,5 @@ animal1 = Mammal('Koala', 'George', 1, True, 'Woods', 'Herbivore', 'Skin', 'Blue
 animal2 = Mammal('Koala', 'Paul', 2, False, 'Rainforest', 'Herbivore', 'Fur', 'Blue')
 animal3 = Mammal('Koala', 'Ringo', 3, True, 'Woods', 'Herbivore', 'Skin', 'Blue')
 print(Animal.display_animals())
+create_animal()
 print(Animal.display_animals())
