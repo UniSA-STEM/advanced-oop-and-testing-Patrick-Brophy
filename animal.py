@@ -10,7 +10,7 @@ animal_register = {}
 
 class Animal:
     animal_counter = 1
-    def __init__(self, family: str, species: str, name: str, age: int, gender: bool, biome: str, diet: str, **kwargs) -> None:
+    def __init__(self, family: str, species: str, name: str, age: int, gender: str, biome: str, diet: str, **kwargs) -> None:
         super().__init__(**kwargs)
         self.__id = f"Animal.{Animal.animal_counter}"
         self.__family = family
@@ -40,14 +40,16 @@ class Animal:
     @staticmethod
     def display_animals():
         display_details = []
-        print('------ Animal Register------')
+        print('-------------------------- Animal Register ---------------------------')
         print("ANIMAL ID | CLASS   |   SPECIES   |     NAME    |  AGE | GENDER |   HABITAT   |     DIET     |   FEATURES")
         for id, details in animal_register.items():
             display_details.append(f"{id:<10}: {details.get_display_data()}")
         return "\n".join(display_details)
 
 class Mammal(Animal):
-    def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, coat: str, coat_colour: str, **kwargs) -> None:
+    def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,
+                 coat_colour: str,
+                 **kwargs: object) -> None:
         super().__init__(family='Mammal', species=species, name=name, age=age, gender=gender, biome=biome, diet=diet, **kwargs)
         self.__coat = coat
         self.__coat_colour = coat_colour
@@ -58,7 +60,7 @@ class Mammal(Animal):
         return base_data + mammal_data
 
 class Reptile(Animal):
-    def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, skin: str, skin_colour: str, **kwargs) -> None:
+    def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, skin: str, skin_colour: str, **kwargs) -> None:
         super().__init__(family='Reptile', species=species, name=name, age=age, gender=gender, biome=biome, diet=diet, **kwargs)
         self.__skin = skin
         self.__skin_colour = skin_colour
@@ -69,22 +71,18 @@ class Reptile(Animal):
         return base_data + reptile_data
 
 class Bird(Animal):
-    def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, fly: str, wing_span: int, **kwargs) -> None:
+    def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, fly: str, wing_span: int, **kwargs) -> None:
         super().__init__(family='Bird', name=name, age=age, gender=gender, species=species, biome=biome, diet=diet, **kwargs)
         self.__fly = fly
         self.__wing_span = wing_span
 
     def get_display_data(self) -> str:
         base_data = super().get_display_data()
-        bird_data = f"{self.__fly:<7} {self.__wing_span}"
+        bird_data = f"{self.__fly:<7} {self.__wing_span}cm"
         return base_data + bird_data
 
-def create_animal(**kwargs) -> Animal:
-    families = {
-        'Mammal': Mammal,
-        'Reptile': Reptile,
-        'Bird' : Bird
-    }
+def create_animal(**kwargs) -> None | Mammal | Reptile | Bird:
+    families = dict(Mammal=Mammal, Reptile=Reptile, Bird=Bird)
     habitats = ['Salt water', 'Fresh water', 'Alpine', 'Savannah', 'Rain forest', 'Woods', 'Mountains']
     diets = ['Herbivore', 'Carnivore', 'Omnivore']
     animal_family = input("Enter the animal family (Mammal, Reptile, or Bird): ").strip().lower().capitalize()
@@ -120,10 +118,10 @@ def create_animal(**kwargs) -> Animal:
     if animal_family == 'Bird':
         fly = input('Is the bird Flying or Flightless: ').strip().lower().capitalize()
         while fly not in ['Flying', 'Flightless']:
-            fly = input('Please enter either Flying or Flightless: ').strip().lower().capitalize()
+            fly: str = input('Please enter either Flying or Flightless: ').strip().lower().capitalize()
         while True:
             try:
-                wing_span = int(input("Please enter the wing span in cm: ").strip().lower())
+                wing_span: int = int(input("Please enter the wing span in cm: ").strip().lower())
                 break
             except ValueError:
                 print("Wing span must be an integer.")
@@ -134,9 +132,8 @@ def create_animal(**kwargs) -> Animal:
     elif animal_family == 'Bird':
         return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, fly=fly, wing_span=wing_span)
 
-animal1 = Mammal('Koala', 'George', 1, True, 'Woods', 'Herbivore', 'Skin', 'Blue')
-animal2 = Mammal('Koala', 'Paul', 2, False, 'Rainforest', 'Herbivore', 'Fur', 'Blue')
-animal3 = Mammal('Koala', 'Ringo', 3, True, 'Woods', 'Herbivore', 'Skin', 'Blue')
+animal1 = Mammal('Koala', 'George', 1, 'Male', 'Woods', 'Herbivore', 'Skin', 'Blue')
+animal2 = Mammal('Koala', 'Paul', 2, 'Female', 'Rainforest', 'Herbivore', 'Fur', 'Blue')
+animal3 = Mammal('Koala', 'Ringo', 3, 'Male', 'Woods', 'Herbivore', 'Skin', 'Blue')
 print(Animal.display_animals())
-create_animal()
 print(Animal.display_animals())
