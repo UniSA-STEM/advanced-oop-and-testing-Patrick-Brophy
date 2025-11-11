@@ -17,14 +17,12 @@ class Animal:
         self.__species = species
         self.__name = name
         self.__age = age
-        if gender:
-            self.__gender = 'Male'
-        else:
-            self.__gender = 'Female'
+        self.__gender = gender
         self.__biome = biome
         self.__diet = diet
         self.__is_healthy = 'Healthy'
         self.__enclosure_ID = None
+        self.__on_display = False
         Animal.animal_counter += 1
         animal_register[self.__id] = self
 
@@ -32,7 +30,7 @@ class Animal:
         return f""
 
     def get_display_data(self) -> str:
-        return f"{self.__family:<10}{self.__species:<13} {self.__name:<14} {self.__age:<5} {self.__gender:<8} {self.__biome:<13} {self.__diet}"
+        return animal_register.items()
 
     def get_id(self) -> str: return self.__id
     def get_name(self) -> str: return self.__name
@@ -48,25 +46,19 @@ class Animal:
         return "\n".join(display_details)
 
 class Mammal(Animal):
-    def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, coat: bool, coat_colour: str, **kwargs) -> None:
+    def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, coat: str, coat_colour: str, **kwargs) -> None:
         super().__init__(family='Mammal', species=species, name=name, age=age, gender=gender, biome=biome, diet=diet, **kwargs)
-        if coat:
-            self.__coat = 'Fur'
-        else:
-            self.__coat = 'Skin'
+        self.__coat = coat
         self.__coat_colour = coat_colour
 
 class Reptile(Animal):
-    def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, skin: bool, skin_colour: str, **kwargs) -> None:
+    def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, skin: str, skin_colour: str, **kwargs) -> None:
         super().__init__(family='Reptile', species=species, name=name, age=age, gender=gender, biome=biome, diet=diet, **kwargs)
-        if skin:
-            self.__skin = 'Scales'
-        else:
-            self.__skin = 'Plates'
+        self.__skin = skin
         self.__skin_colour = skin_colour
 
 class Bird(Animal):
-    def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, fly: bool, wing_span: int, **kwargs) -> None:
+    def __init__(self, species: str, name: str, age: int, gender: bool, biome: str, diet: str, fly: str, wing_span: int, **kwargs) -> None:
         super().__init__(family='Bird', name=name, age=age, gender=gender, species=species, biome=biome, diet=diet, **kwargs)
         if fly:
             self.__fly = True
@@ -80,18 +72,57 @@ def create_animal(**kwargs) -> Animal:
         'Reptile': Reptile,
         'Bird' : Bird
     }
-    animal_family = input("Enter the animal family: ")
-    if not animal_family:
-        raise Exception(f"Animal family {animal_family} not found. Must be one of Mammal, Reptile, or Bird")
-    species = input("Species: ")
-    name = input("Name: ")
-    age = int(input("Age: "))
-    gender = input("Gender: ")
-    habitat = input("Habitat: ")
-    diet = input("Diet: ")
-    return animal_family(species, name, age, gender, habitat, diet)
+    habitats = ['Salt water', 'Fresh water', 'Alpine', 'Savannah', 'Rain forest', 'Woods', 'Mountains']
+    diets = ['Herbivore', 'Carnivore', 'Omnivore']
+    animal_family = input("Enter the animal family (Mammal, Reptile, or Bird): ").strip().lower().capitalize()
+    while animal_family not in families:
+        animal_family = input(f"Animal family {animal_family} not found. Must be one of Mammal, Reptile, or Bird: ").strip().lower().capitalize()
+    species = input("Species: ").strip().lower().capitalize()
+    name = input("Name: ").strip().lower().capitalize()
+    while True:
+        try:
+            age = int(input("Age: "))
+            break
+        except ValueError:
+            print("Age must be an integer.")
+    gender = input("Gender (Male/Female): ").strip().lower().capitalize()
+    while gender not in ['Male', 'Female']:
+        gender = input("Please enter either Male or Female: ").strip().lower().capitalize()
+    habitat = input(f"Habitat - choose from {habitats}: ").strip().lower().capitalize()
+    while habitat not in habitats:
+        habitat = input(f"Habitat must be from {habitats}: ").strip().lower().capitalize()
+    diet = input(f"Diet (Herbivore, Carnivore, or Omnivore): ").strip().lower().capitalize()
+    while diet not in diets:
+        diet = input(f"Diet must be from {diets}: ").strip().lower().capitalize()
+    if animal_family == 'Mammal':
+        coat = input("Coat or Fur: ").strip().lower().capitalize()
+        while coat not in ['Coat', 'Fur']:
+            coat = input("Please enter either Coat or Fur: ").strip().lower().capitalize()
+        coat_colour = input("What colour is the coat/ fur: ").strip().lower().capitalize()
+    if animal_family == 'Reptile':
+        skin = input("Does the reptile have Scales or Plates: ").strip().lower().capitalize()
+        while skin not in ['Scales', 'Plates']:
+            skin = input("Please enter either Scales or Plates: ").strip().lower().capitalize()
+        skin_colour = input("What colour are the Scales or Plates: ").strip().lower().capitalize()
+    if animal_family == 'Bird':
+        fly = input('Is the bird Flying or Flightless: ').strip().lower().capitalize()
+        while fly not in ['Flying', 'Flightless']:
+            fly = input('Please enter either Flying or Flightless: ').strip().lower().capitalize()
+        while True:
+            try:
+                wing_span = int(input("Please enter the wing span in cm: ").strip().lower())
+                break
+            except ValueError:
+                print("Wing span must be an integer.")
+    if animal_family == 'Mammal':
+        return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, coat=coat, coat_colour=coat_colour)
+    elif animal_family == 'Reptile':
+        return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, skin=skin, skin_colour=skin_colour)
+    elif animal_family == 'Bird':
+        return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, fly=fly, wing_span=wing_span)
 
-animal1 = Mammal('Koala', 'George', 1, True, 'Woods', 'Herbivore', False, 'Blue')
-animal2 = Mammal('Koala', 'Paul', 2, False, 'Rainforest', 'Herbivore', False, 'Blue')
-animal3 = Mammal('Koala', 'Ringo', 3, True, 'Woods', 'Herbivore', False, 'Blue')
+animal1 = Mammal('Koala', 'George', 1, True, 'Woods', 'Herbivore', 'Skin', 'Blue')
+animal2 = Mammal('Koala', 'Paul', 2, False, 'Rainforest', 'Herbivore', 'Fur', 'Blue')
+animal3 = Mammal('Koala', 'Ringo', 3, True, 'Woods', 'Herbivore', 'Skin', 'Blue')
+print(Animal.display_animals())
 print(Animal.display_animals())
