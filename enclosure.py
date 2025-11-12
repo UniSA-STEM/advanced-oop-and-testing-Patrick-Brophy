@@ -27,6 +27,6 @@ class Enclosure:
     def get_enclosure_data():
         enclosure_data = []
         for key, value in enclosure_register.items():
-            enclosure_data.append(f"{key:<13}: {value.__biome:<13} {'Clean 'if value.__is_clean else 'Dirty':<8} {value.__size:<8} {value.__has_animal if value.__has_animal else 'Empty'}")
+            enclosure_data.append(f"{key:<13}: {value.__biome:<11} {'Clean 'if value.__is_clean else 'Dirty':<9} {value.__size:<8} {value.__has_animal if value.__has_animal else 'Empty'}")
         return "\n".join(enclosure_data)
 

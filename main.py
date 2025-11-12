@@ -26,7 +26,7 @@ def create_enclosure() -> Enclosure:
 
 def display_enclosure_data() -> None:
     print("-" * 25, 'Enclosure Register', "-" * 25)
-    print(F"Enclosure ID |    BIOME    | STATUS |  SIZE  | OCCUPANT")
+    print(F"Enclosure ID |   BIOME   | STATUS |  SIZE  | OCCUPANT")
     print(Enclosure.get_enclosure_data())
 
 def create_animal(**kwargs) -> Mammal | Reptile | Bird:
@@ -82,4 +82,3 @@ def create_animal(**kwargs) -> Mammal | Reptile | Bird:
     else:
         print(f"{name} the {species} of class {animal_family} has been added. They can now be added to an unoccupied enclosure that matches their biome.")
         return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, fly=fly, wing_span=wing_span)
-

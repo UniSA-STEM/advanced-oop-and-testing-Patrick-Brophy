@@ -7,8 +7,9 @@ Username: bropy009
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
 animal_register = {}
+from abc import ABC
 
-class Animal:
+class Animal(ABC):
     animal_counter = 1
     def __init__(self, family: str, species: str, name: str, age: int, gender: str, biome: str, diet: str, **kwargs) -> None:
         super().__init__(**kwargs)
