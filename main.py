@@ -146,11 +146,13 @@ def assign_animal_to_enclosure():
             animal = animal_register[animal_input]
             break
         else:
-            print(f"Please enter a valid animal ID. Current animal list is {Animal.display_animals()}")
+            print(f"Please enter a valid animal ID. Current animal list below: \n"
+                  f"{Animal.display_animals()}")
     while True:
         enclosure_input = input(f"Please enter the ID of the enclosure you would like to assign {animal.get_name()} to: ").strip().lower().capitalize()
         if enclosure_input in enclosure_register:
             enclosure = enclosure_register[enclosure_input]
             break
         else:
-            print(f"Please enter a valid enclosure ID. Current enclosure list is {Enclosure.get_enclosure_data()}")
+            print(f"Please enter a valid enclosure ID. Current enclosure list below: "
+                  f"{Enclosure.get_enclosure_data()}")
