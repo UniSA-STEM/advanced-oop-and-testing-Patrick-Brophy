@@ -13,7 +13,7 @@ class Animal(ABC):
     animal_counter = 1
     def __init__(self, family: str, species: str, name: str, age: int, gender: str, biome: str, diet: str, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.__id = f"Animal.{Animal.animal_counter}"
+        self.__id = f"Animal_{Animal.animal_counter}"
         self.__family = family
         self.__species = species
         self.__name = name

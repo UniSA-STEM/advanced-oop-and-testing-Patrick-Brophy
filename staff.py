@@ -9,11 +9,11 @@ This is my own work as defined by the University's Academic Integrity Policy.
 from abc import ABC
 staff_register = {}
 
-class Staff:
+class Staff(ABC):
     staff_counter = 1
     def __init__(self, name: str, salary: int, occupation: str, **kwargs):
         super().__init__(**kwargs)
-        self.__staff_id = f"Staff.{Staff.staff_counter}"
+        self.__staff_id = f"Staff_{Staff.staff_counter}"
         self.__name = name.strip().lower().capitalize()
         self.__salary = salary
         self.__schedule = {'Monday': None, 'Tuesday': None, 'Wednesday': None, 'Thursday': None, 'Friday': None, 'Saturday': None, 'Sunday': None}
