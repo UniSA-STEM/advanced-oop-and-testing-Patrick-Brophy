@@ -30,3 +30,9 @@ class Enclosure:
             enclosure_data.append(f"{key:<13}: {value.__biome:<11} {'Clean 'if value.__is_clean else 'Dirty':<9} {value.__size:<8} {value.__has_animal if value.__has_animal else 'Empty'}")
         return "\n".join(enclosure_data)
 
+    def change_enclosure_cleanliness(self):
+        if self.__is_clean:
+            self.__is_clean = False
+        else:
+            self.__is_clean = True
+

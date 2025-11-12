@@ -8,6 +8,7 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from enclosure import Enclosure
 from animal import Animal, Mammal, Reptile, Bird
+from staff import Staff, staff_register
 
 def create_enclosure() -> Enclosure:
     biomes = ['Salt water', 'Fresh water', 'Alpine', 'Savannah', 'Rain forest', 'Woods', 'Mountains']
@@ -82,3 +83,19 @@ def create_animal(**kwargs) -> Mammal | Reptile | Bird:
     else:
         print(f"{name} the {species} of class {animal_family} has been added. They can now be added to an unoccupied enclosure that matches their biome.")
         return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, fly=fly, wing_span=wing_span)
+
+def update_schedule():
+    employee_id = input("Please enter the full Staff ID of the employee you would like to update (e.g. StaffID.1): ")
+    while employee_id not in staff_register:
+        employee_id = input("Please enter a valid staff ID: ")
+    employee = staff_register[employee_id]
+    print(f"Staff ID: {employee_id}: {employee.get_name()} selected.\nCurrent schedule is: ")
+    schedule = employee.get_schedule()
+    for day, task in (schedule.items()):
+        print(f"{day}: {task}")
+    day = input('Please enter the day of the week you would like to update: ').strip().lower().capitalize()
+    while day not in schedule:
+        day = input("Please enter a valid day of the week to update: ").strip().lower().capitalize()
+    task = input(f"Please enter the task add to {employee.get_name()}'s schedule: ").strip().lower().capitalize()
+    schedule[day] = task
+    print(f"Updated schedule for {employee.get_name()} on {day} is {task}")
