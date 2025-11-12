@@ -11,12 +11,13 @@ staff_register = {}
 
 class Staff:
     staff_counter = 1
-    def __init__(self, name: str, salary: int, **kwargs):
+    def __init__(self, name: str, salary: int, occupation: str, **kwargs):
         super().__init__(**kwargs)
-        self.__staff_id = f"StaffID.{Staff.staff_counter}"
-        self.__name = name
+        self.__staff_id = f"Staff.{Staff.staff_counter}"
+        self.__name = name.strip().lower().capitalize()
         self.__salary = salary
         self.__schedule = {'Monday': None, 'Tuesday': None, 'Wednesday': None, 'Thursday': None, 'Friday': None, 'Saturday': None, 'Sunday': None}
+        self.__occupation = occupation.strip().lower().capitalize()
         staff_register[self.__staff_id] = self
         Staff.staff_counter += 1
 
@@ -27,8 +28,10 @@ class Staff:
     @classmethod
     def get_staff_details(cls):
         staff_details = []
+        print(f"{"-" * 15} Staff Details {"-" * 15}")
+        print(f"STAFF ID |    Name    |  Salary  |  Occupation")
         for key, value in staff_register.items():
-            staff_details.append(f"{key}{value.__name}{value.__salary}{value.__salary}")
+            staff_details.append(f"{key:<11}{value.__name:<14}{value.__salary:<11}{value.__occupation}")
         return "\n".join(staff_details)
 
     def increase_salary(self, amount: int):

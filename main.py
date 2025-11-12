@@ -6,8 +6,8 @@ ID: 110070814
 Username: bropy009
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
-from enclosure import Enclosure
-from animal import Animal, Mammal, Reptile, Bird
+from enclosure import Enclosure, enclosure_register
+from animal import Animal, Mammal, Reptile, Bird, animal_register
 from staff import Staff, staff_register
 
 def create_enclosure() -> Enclosure:
@@ -75,21 +75,54 @@ def create_animal(**kwargs) -> Mammal | Reptile | Bird:
             except ValueError:
                 print("Wing span must be an integer.")
     if animal_family == 'Mammal':
-        print(f"{name} the {species} of class {animal_family} has been added. They can now be added to an unoccupied enclosure that matches their biome.")
-        return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, coat=coat, coat_colour=coat_colour)
+        all_args = {
+        'species': species,
+        'name': name,
+        'age': age,
+        'gender': gender,
+        'biome': habitat,
+        'diet': diet,
+        'coat': coat,
+        'coat_colour': coat_colour
+    }
+        new_animal = families[animal_family](**all_args)
+        print(f"{new_animal.get_id()}:{name} the {species} of class {animal_family} has been added. They can now be added to an unoccupied enclosure that matches their biome.")
+        return new_animal
     elif animal_family == 'Reptile':
-        print(f"{name} the {species} of class {animal_family} has been added. They can now be added to an unoccupied enclosure that matches their biome.")
-        return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, skin=skin, skin_colour=skin_colour)
+        all_args = {
+            'species': species,
+            'name': name,
+            'age': age,
+            'gender': gender,
+            'biome': habitat,
+            'diet': diet,
+            'skin': skin,
+            'skin_colour': skin_colour
+        }
+        new_animal = families[animal_family](**all_args)
+        print(f"{new_animal.get_id()}:{name} the {species} of class {animal_family} has been added. They can now be added to an unoccupied enclosure that matches their biome.")
+        return new_animal
     else:
-        print(f"{name} the {species} of class {animal_family} has been added. They can now be added to an unoccupied enclosure that matches their biome.")
-        return families[animal_family](species=species, name=name, age=age, gender=gender, biome=habitat, diet=diet, fly=fly, wing_span=wing_span)
+        all_args = {
+            'species': species,
+            'name': name,
+            'age': age,
+            'gender': gender,
+            'biome': habitat,
+            'diet': diet,
+            'fly': fly,
+            'wing_span': wing_span
+        }
+        new_animal = families[animal_family](**all_args)
+        print(f"{new_animal.get_id()}:{name} the {species} of class {animal_family} has been added. They can now be added to an unoccupied enclosure that matches their biome.")
+        return new_animal
 
 def update_schedule():
     employee_id = input("Please enter the full Staff ID of the employee you would like to update (e.g. StaffID.1): ")
     while employee_id not in staff_register:
         employee_id = input("Please enter a valid staff ID: ")
     employee = staff_register[employee_id]
-    print(f"Staff ID: {employee_id}: {employee.get_name()} selected.\nCurrent schedule is: ")
+    print(f"{employee_id}: {employee.get_name()} selected.\nCurrent schedule is: ")
     schedule = employee.get_schedule()
     for day, task in (schedule.items()):
         print(f"{day}: {task}")
@@ -99,3 +132,25 @@ def update_schedule():
     task = input(f"Please enter the task add to {employee.get_name()}'s schedule: ").strip().lower().capitalize()
     schedule[day] = task
     print(f"Updated schedule for {employee.get_name()} on {day} is {task}")
+
+def assign_animal_to_enclosure():
+    if not animal_register:
+        print("No animals have been registered. Please create an animal record prior to assigning an enclosure.")
+        return
+    if not enclosure_register:
+        print(f"You must create an enclosure record prior to assigning an animal to an enclosure.")
+        return
+    while True:
+        animal_input = input(f"Please enter the ID of the animal you would like to assign to an enclosure: ").strip().lower().capitalize()
+        if animal_input in animal_register:
+            animal = animal_register[animal_input]
+            break
+        else:
+            print(f"Please enter a valid animal ID. Current animal list is {Animal.display_animals()}")
+    while True:
+        enclosure_input = input(f"Please enter the ID of the enclosure you would like to assign {animal.get_name()} to: ").strip().lower().capitalize()
+        if enclosure_input in enclosure_register:
+            enclosure = enclosure_register[enclosure_input]
+            break
+        else:
+            print(f"Please enter a valid enclosure ID. Current enclosure list is {Enclosure.get_enclosure_data()}")

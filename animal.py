@@ -28,9 +28,6 @@ class Animal(ABC):
         Animal.animal_counter += 1
         animal_register[self.__id] = self
 
-    def __str__(self):
-        return f"{self.__name} the {self.__family} {self.__species} has been added. You can now add the animal to an unoccupied enclosure."
-
     def get_display_data(self) -> str:
         common_data = f"{self.__family:<10}{self.__species:<13} {self.__name:<14} {self.__age:<5} {self.__gender:<13}{ 'Yes' if self.__on_display else 'No':<8} {self.__biome:<13} {self.__diet:<15}"
         return common_data
@@ -47,6 +44,7 @@ class Animal(ABC):
         for id, details in animal_register.items():
             display_details.append(f"{id:<10}: {details.get_display_data()}")
         return "\n".join(display_details)
+
 class Mammal(Animal):
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,
                  coat_colour: str,
