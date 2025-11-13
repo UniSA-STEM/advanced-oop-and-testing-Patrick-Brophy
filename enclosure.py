@@ -40,7 +40,7 @@ class Enclosure:
     @staticmethod
     def get_dirty_enclosures():
         dirty_enclosures = [enclosure.get_enclosure_id() for enclosure in enclosure_register.values() if enclosure.get_is_clean() is False]
-        return dirty_enclosures
+        return f"The following enclosures are dirty: {dirty_enclosures}"
 
     @staticmethod
     def get_enclosure_data():
@@ -56,5 +56,5 @@ Enclosure_3 = Enclosure('Woods', 250)
 Enclosure_1.set_is_clean()
 Enclosure_2.set_is_clean()
 Enclosure_3.set_is_clean()
-Enclosure.get_dirty_enclosures()
+print(Enclosure.get_dirty_enclosures())
 
