@@ -21,7 +21,7 @@ class Animal(ABC):
         self.__gender = gender
         self.__biome = biome
         self.__diet = diet
-        self.__is_healthy = 'Healthy'
+        self.__health = 'Healthy'
         self.__health_record = {}
         self.__enclosure_ID = None
         self.__on_display = False
@@ -44,6 +44,19 @@ class Animal(ABC):
         for id, details in animal_register.items():
             display_details.append(f"{id:<10}: {details.get_display_data()}")
         return "\n".join(display_details)
+
+    @staticmethod
+    def get_health_status():
+        animal_health_list = []
+        for animal in animal_register.values():
+            animal_health_list.append(f"{animal.__id}: {animal.__name} the {animal.__species}'s current health status is: {animal.__health}")
+        return animal_health_list
+
+    def set_health(self, health: str) -> None:
+        self.__health = health
+
+    def add_new_health_record(self, case_id: str, treatment_record: dict) -> None:
+        self.__health_record[case_id] = treatment_record
 
 class Mammal(Animal):
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,
@@ -79,3 +92,6 @@ class Bird(Animal):
         base_data = super().get_display_data()
         bird_data = f"{self.__fly:<7} {self.__wing_span}cm"
         return base_data + bird_data
+
+
+animal1 = Mammal('koala', 'geoff', '13', 'Male', 'Woods', 'Herbivore', 'Fur', 'Grey')
