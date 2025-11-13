@@ -52,6 +52,9 @@ class Animal(ABC):
             animal_health_list.append(f"{animal.__id}: {animal.__name} the {animal.__species}'s current health status is: {animal.__health}")
         return animal_health_list
 
+    def get_animal_health(self):
+        print(f"{self.__id}: {self.__name} the {self.__species}'s current health status is: {self.__health}")
+
     def set_health(self, health: str) -> None:
         self.__health = health
 

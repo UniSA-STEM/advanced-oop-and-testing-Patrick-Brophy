@@ -56,29 +56,40 @@ class Zookeeper(Staff):
 class Vet(Staff):
     ...
 
-    def check_animal(self, animal):
-        ...
-
-    def add_health_record(self):
-        print(Animal.get_health_status())
-        animal = input("Enter the ID of the animal to be treated: ").lower().strip().capitalize()
+    def check_animal(self):
+        print(Animal.display_animals())
+        animal = input("Enter the ID of the animal to checked: ").lower().strip().capitalize()
         while True:
             if animal not in animal_register:
                 animal = input("Invalid entry. Enter the ID of the animal to be treated: ").lower().strip().capitalize()
             else:
                 break
+        animal_object = animal_register[animal]
+        animal_object.get_animal_health()
+        while True:
+            try:
+                choice = input("Do you wish to set up a treatment plan for this animal? (Y/N) ").lower().strip()
+                break
+            except ValueError:
+                choice = input(f"Please enter Y or N: ").lower().strip()
+        if choice == 'y':
+            print(self.add_health_record(animal_object))
+        else:
+            print(f"Returning to main menu.")
+
+
+    def add_health_record(self, animal_object):
         case_id = f"Case_{Staff.health_record_counter}"
         Staff.health_record_counter += 1
-        diagnoses = input("Enter the diagnoses of the animal: ")
+        diagnosis = input("Enter the diagnosis of the animal: ")
         treatment = input("Enter the treatment for the animal: ")
         treatment_record = {
-            'Diagnoses': diagnoses,
+            'Diagnosis': diagnosis,
             'Treatment': treatment,
         }
-        animal_object = animal_register[animal]
         animal_object.add_new_health_record(case_id, treatment_record)
         return f"{case_id} added to {animal_object.get_name()}'s health record with the following information: {treatment_record}"
 
 patrick = Vet('Patrick', '160000', 'Vet')
-print(patrick.add_health_record())
+patrick.check_animal()
 
