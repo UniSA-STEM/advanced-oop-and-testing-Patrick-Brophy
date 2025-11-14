@@ -31,16 +31,12 @@ class Enclosure:
             self.__occupancy = False
     def get_is_clean(self) -> bool:
         return self.__is_clean
-    def set_is_clean(self) -> None:
-        if self.__is_clean:
-            self.__is_clean = False
-        else:
-            self.__is_clean = True
+    def set_is_clean(self) -> None: self.__is_clean = True
 
     @staticmethod
     def get_dirty_enclosures():
         dirty_enclosures = [enclosure.get_enclosure_id() for enclosure in enclosure_register.values() if enclosure.get_is_clean() is False]
-        return f"The following enclosures are dirty: {dirty_enclosures}"
+        return dirty_enclosures
 
     @staticmethod
     def get_enclosure_data():
@@ -50,11 +46,11 @@ class Enclosure:
             enclosure_data.append(f"{key:<13}: {value.__biome:<11} {'Clean 'if value.__is_clean else 'Dirty':<9} {value.__size:<8} {occupancy}")
         return "\n".join(enclosure_data)
 
-Enclosure_1 = Enclosure('Woods', 250)
-Enclosure_2 = Enclosure('Woods', 250)
-Enclosure_3 = Enclosure('Woods', 250)
-Enclosure_1.set_is_clean()
-Enclosure_2.set_is_clean()
-Enclosure_3.set_is_clean()
-print(Enclosure.get_dirty_enclosures())
+# Enclosure_1 = Enclosure('Woods', 250)
+# Enclosure_2 = Enclosure('Woods', 250)
+# Enclosure_3 = Enclosure('Woods', 250)
+# Enclosure_1.set_is_clean()
+# Enclosure_2.set_is_clean()
+# Enclosure_3.set_is_clean()
+# print(Enclosure.get_dirty_enclosures())
 

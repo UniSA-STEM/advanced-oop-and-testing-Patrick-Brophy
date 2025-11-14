@@ -8,7 +8,8 @@ This is my own work as defined by the University's Academic Integrity Policy.
 '''
 from enclosure import Enclosure, enclosure_register
 from animal import Animal, Mammal, Reptile, Bird, animal_register
-from staff import Staff, staff_register
+from staff import Staff, staff_register, Zookeeper
+
 
 def create_enclosure() -> Enclosure:
     biomes = ['Salt water', 'Fresh water', 'Alpine', 'Savannah', 'Rain forest', 'Woods', 'Mountains']
@@ -148,11 +149,37 @@ def assign_animal_to_enclosure():
         else:
             print(f"Please enter a valid animal ID. Current animal list below: \n"
                   f"{Animal.display_animals()}")
+    print(f"{animal.get_name()} the {animal.get_species()} can be assigned to an empty enclosure of the {animal.get_biome()} biome.")
     while True:
         enclosure_input = input(f"Please enter the ID of the enclosure you would like to assign {animal.get_name()} to: ").strip().lower().capitalize()
-        if enclosure_input in enclosure_register:
-            enclosure = enclosure_register[enclosure_input]
-            break
-        else:
-            print(f"Please enter a valid enclosure ID. Current enclosure list below: "
+        if enclosure_input not in enclosure_register:
+            print(f"Please enter a valid enclosure ID. Current enclosure list below: \n"
                   f"{Enclosure.get_enclosure_data()}")
+            continue
+        enclosure = enclosure_register[enclosure_input]
+        if enclosure.get_occupancy():
+            print(f"{enclosure.get_enclosure_id()} is currently occupied. Please select an empty enclosure.")
+            continue
+        if enclosure.get_enclosure_biome() != animal.get_biome():
+            print(f"{enclosure.get_enclosure_id()} is a {enclosure.get_enclosure_biome()} biome, which does not match the animal's required {animal.get_biome()} biome.")
+            continue
+        break
+    if enclosure.get_is_clean() is False:
+        choice = input(f"{enclosure.get_enclosure_id()} is currently dirty. Would you like to clean it first? (y/n)")
+        if choice.lower() == 'y':
+            zookeepers = Zookeeper.display_zookeepers()
+            print(f"The below zookeepers are available to clean {enclosure.get_enclosure_id()}.")
+            print(zookeepers)
+            zookeeper_ids = [_[0] for _ in zookeepers]
+            choice = input(f"Enter the ID of the zookeeper you'd like to clean the enclosure: ").strip().lower().capitalize()
+            while choice not in zookeeper_ids:
+                choice = input(f"Please entera valid zookeeper ID: ").strip().lower().capitalize()
+            selected_staff = staff_register[choice]
+            selected_staff.clean_enclosure(enclosure)
+    animal.set_enclosure_ID(enclosure.get_enclosure_id())
+    return f"{animal.get_name()} the {animal.get_species()} has been successfully assigned to {enclosure.get_enclosure_id()}."
+
+def clean_enclosure():
+    ...
+
+# assign_animal_to_enclosure()

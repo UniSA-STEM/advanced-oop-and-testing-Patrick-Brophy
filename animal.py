@@ -35,6 +35,12 @@ class Animal(ABC):
     def get_id(self) -> str: return self.__id
     def get_name(self) -> str: return self.__name
     def get_age(self) -> int: return self.__age
+    def get_species(self) -> str: return self.__species
+    def get_gender(self) -> str: return self.__gender
+    def get_biome(self) -> str: return self.__biome
+    def get_diet(self) -> str: return self.__diet
+    def get_health(self) -> str: return self.__health
+    def set_enclosure_ID(self, enclosure_id: str) -> None: self.__enclosure_ID = enclosure_id
 
     @staticmethod
     def display_animals():
@@ -97,4 +103,4 @@ class Bird(Animal):
         return base_data + bird_data
 
 
-animal1 = Mammal('koala', 'geoff', '13', 'Male', 'Woods', 'Herbivore', 'Fur', 'Grey')
+# animal1 = Mammal('koala', 'geoff', '13', 'Male', 'Woods', 'Herbivore', 'Fur', 'Grey')

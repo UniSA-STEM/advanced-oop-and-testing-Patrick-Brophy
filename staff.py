@@ -25,9 +25,11 @@ class Staff(ABC):
         staff_register[self.__staff_id] = self
         Staff.staff_counter += 1
 
+    def get_staff_id(self): return self.__staff_id
     def get_name(self) -> str: return self.__name
     def get_schedule(self) -> dict: return self.__schedule
     def get_salary(self) -> int: return self.__salary
+    def get_occupation(self) -> str: return self.__occupation
 
     @classmethod
     def get_staff_details(cls):
@@ -44,14 +46,36 @@ class Staff(ABC):
     def remove_staff(self):
         ...
 
+    def staff_search(cls):
+        search_results = []
+        search_term = input("Enter the employee ID, name, or occupation of the staff you are searching for: ").strip().lower().capitalize()
+        for key, value in staff_register.items():
+            if search_term in value.__name:
+                search_results.append(f"{value.__staff_id}: {value.__name} the {value.__occupation}")
+            if search_term in value.__staff_id:
+                search_results.append(value)
+            if search_term in value.__occupation:
+                search_results.append(value)
+        if not search_results:
+            return f"No staff matching {search_term} found."
+        else:
+            return f"The following staff matching {search_term} were found:\n{search_results}"
+
 class Zookeeper(Staff):
     ...
 
     def clean_enclosure(self, enclosure):
-        ...
+        print(f"{self.__name} is now cleaning {enclosure.get_enclosure_id()}")
+        enclosure.set_is_clean()
+        return f"{enclosure.get_enclosure_id()} cleaned."
 
     def feed_animal(self, animal):
         ...
+
+    @staticmethod
+    def display_zookeepers():
+        zookeepers = [[value.get_staff_id(), value.get_name()] for key, value in staff_register.items() if value.get_occupation() == 'Zookeeper']
+        return zookeepers
 
 class Vet(Staff):
     ...
@@ -91,5 +115,6 @@ class Vet(Staff):
         return f"{case_id} added to {animal_object.get_name()}'s health record with the following information: {treatment_record}"
 
 patrick = Vet('Patrick', '160000', 'Vet')
-patrick.check_animal()
-
+patrick = Zookeeper('Patrick', '160000', 'Zookeeper')
+# patrick.check_animal()
+print(Zookeeper.display_zookeepers())
