@@ -51,16 +51,15 @@ class Staff(ABC):
         search_results = []
         search_term = input("Enter the employee ID, name, or occupation of the staff you are searching for: ").strip().lower().capitalize()
         for key, value in staff_register.items():
-            if search_term in value.__name:
-                search_results.append(f"{value.__staff_id}: {value.__name} the {value.__occupation}")
-            if search_term in value.__staff_id:
-                search_results.append(value)
-            if search_term in value.__occupation:
-                search_results.append(value)
+            if (search_term in value.get_name()
+            or search_term in value.get_staff_id()
+            or search_term in value.get_occupation()):
+                search_results.append(f"{value.get_staff_id}: {value.get_name} the {value.get_occupation}")
         if not search_results:
             return f"No staff matching {search_term} found."
         else:
-            return f"The following staff matching {search_term} were found:\n{search_results}"
+            results_string = "\n".join(search_results)
+            return f"The following staff matching '{search_term}' were found:\n {results_string}"
 
 class Zookeeper(Staff):
     ...
@@ -80,6 +79,11 @@ class Zookeeper(Staff):
 
 class Vet(Staff):
     ...
+
+    @staticmethod
+    def display_vets():
+        vets = [[value.get_staff_id(), value.get_name()] for key, value in staff_register.items() if value.get_occupation() == 'Vet']
+        return vets
 
     def check_animal(self):
         print(Animal.display_animals())

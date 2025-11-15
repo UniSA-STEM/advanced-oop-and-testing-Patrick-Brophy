@@ -46,6 +46,20 @@ class Enclosure:
             enclosure_data.append(f"{key:<13}: {value.__biome:<11} {'Clean 'if value.__is_clean else 'Dirty':<9} {value.__size:<8} {occupancy}")
         return "\n".join(enclosure_data)
 
+    @staticmethod
+    def enclosure_search():
+        search_results = []
+        search_term = input("Enter the ID or biome of the enclosure you are searching for: ").strip().lower().capitalize()
+        for key, value in enclosure_register.items():
+            if search_term in value.get_id() or search_term in value.get_biome():
+                search_results.append(f"{value.get_id()}: of the {value.get_biome()} biome is currently {value.get_occupancy()} and {value.get_is_clean()}")
+        if not search_results:
+            return f"No enclosures matching {search_term} found."
+        else:
+            results_string = "\n".join(search_results)
+            return f"The following enclosures matching '{search_term}' were found:\n {results_string}"
+
+
 # Enclosure_1 = Enclosure('Woods', 250)
 # Enclosure_2 = Enclosure('Woods', 250)
 # Enclosure_3 = Enclosure('Woods', 250)

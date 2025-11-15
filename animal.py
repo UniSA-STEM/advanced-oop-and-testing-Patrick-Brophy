@@ -67,6 +67,22 @@ class Animal(ABC):
     def add_new_health_record(self, case_id: str, treatment_record: dict) -> None:
         self.__health_record[case_id] = treatment_record
 
+    @staticmethod
+    def animal_search():
+        search_results = []
+        search_term = input("Enter the ID, name, species, or class of the animal you are searching for: ").strip().lower().capitalize()
+        for key, value in animal_register.items():
+            if (search_term in value.get_name()
+            or search_term in value.get_species()
+            or search_term in value.get_family()
+            or search_term in value.get_id()):
+                search_results.append(f"{value.get_id()}: {value.get_name()} the {value.get_species()} of class {value.get_family()}")
+        if not search_results:
+            return f"No animals matching {search_term} found."
+        else:
+            results_string = "\n".join(search_results)
+            return f"The following animals matching '{search_term}' were found:\n {results_string}"
+
 class Mammal(Animal):
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,
                  coat_colour: str,
