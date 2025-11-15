@@ -70,13 +70,14 @@ class Animal(ABC):
     @staticmethod
     def animal_search():
         search_results = []
-        search_term = input("Enter the ID, name, species, or class of the animal you are searching for: ").strip().lower().capitalize()
+        search_term = input("Enter the ID, name, species, biome, or class of the animal you are searching for: ").strip().lower().capitalize()
         for key, value in animal_register.items():
             if (search_term in value.get_name()
+            or search_term in value.get_biome()
             or search_term in value.get_species()
             or search_term in value.get_family()
             or search_term in value.get_id()):
-                search_results.append(f"{value.get_id()}: {value.get_name()} the {value.get_species()} of class {value.get_family()}")
+                search_results.append(f"{value.get_id()}: {value.get_name()} the {value.get_species()} of class {value.get_family()}, native to {value.get_biome()}")
         if not search_results:
             return f"No animals matching {search_term} found."
         else:

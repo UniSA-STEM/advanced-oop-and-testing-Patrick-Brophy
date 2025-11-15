@@ -19,9 +19,12 @@ def create_enclosure() -> Enclosure:
     while True:
         try:
             size = int(input("Please enter the size of the new enclosure in square metres: "))
+            if size < 1:
+                print("Please enter a positive integer")
+                continue
             break
         except ValueError:
-            print("Please enter a number.")
+            print("Please enter a positive number.")
     new_enclosure = Enclosure(biome=biome, size=size)
     print(f"{new_enclosure.get_enclosure_id()} has been created with biome {biome} and size {size}m\u00b2.")
     return new_enclosure
