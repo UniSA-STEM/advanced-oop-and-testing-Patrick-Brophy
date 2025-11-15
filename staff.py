@@ -43,10 +43,11 @@ class Staff(ABC):
     def increase_salary(self, amount: int):
         self.__salary += amount
 
-    def remove_staff(self):
+    def remove_staff(self, staff_id: str):
         ...
 
-    def staff_search(cls):
+    @staticmethod
+    def staff_search():
         search_results = []
         search_term = input("Enter the employee ID, name, or occupation of the staff you are searching for: ").strip().lower().capitalize()
         for key, value in staff_register.items():
@@ -83,31 +84,32 @@ class Vet(Staff):
     def check_animal(self):
         print(Animal.display_animals())
         animal = input("Enter the ID of the animal to checked: ").lower().strip().capitalize()
-        while True:
-            if animal not in animal_register:
+        while animal not in animal_register:
                 animal = input("Invalid entry. Enter the ID of the animal to be treated: ").lower().strip().capitalize()
-            else:
-                break
         animal_object = animal_register[animal]
         animal_object.get_animal_health()
-        while True:
-            try:
-                choice = input("Do you wish to set up a treatment plan for this animal? (Y/N) ").lower().strip()
-                break
-            except ValueError:
-                choice = input(f"Please enter Y or N: ").lower().strip()
-        if choice == 'y':
+        choice = input("Do you wish to set up a treatment plan for this animal? (Y/N) ").strip().upper()
+        while choice not in ['Y', 'N']:
+            choice = input("Invalid input. Please enter Y or N.")
+        if choice.lower().strip() == 'y':
             print(self.add_health_record(animal_object))
+        display_status = input(f'Do you wish to change the display status of this animal? currently {animal_object.get_display_status()} (Y/N) ')
+        while display_status not in ['Y', 'N']:
+            display_status = input("Invalid input. Please enter Y or N.")
+        if display_status.strip().upper() == 'Y':
+            animal_object.set_display_status()
         else:
             print(f"Returning to main menu.")
 
-
-    def add_health_record(self, animal_object):
+    @staticmethod
+    def add_health_record(animal_object):
         case_id = f"Case_{Staff.health_record_counter}"
         Staff.health_record_counter += 1
-        diagnosis = input("Enter the diagnosis of the animal: ")
+        report_date = input('Enter the report date (dd/mm/yyyy): ')
+        diagnosis = input('Enter the diagnosis or behavioural issue of the animal: ')
         treatment = input("Enter the treatment for the animal: ")
         treatment_record = {
+            'Report date': report_date,
             'Diagnosis': diagnosis,
             'Treatment': treatment,
         }
@@ -115,6 +117,6 @@ class Vet(Staff):
         return f"{case_id} added to {animal_object.get_name()}'s health record with the following information: {treatment_record}"
 
 patrick = Vet('Patrick', '160000', 'Vet')
-patrick = Zookeeper('Patrick', '160000', 'Zookeeper')
+patrick2 = Zookeeper('Patrick', '160000', 'Zookeeper')
 # patrick.check_animal()
 print(Zookeeper.display_zookeepers())

@@ -180,6 +180,25 @@ def assign_animal_to_enclosure():
     return f"{animal.get_name()} the {animal.get_species()} has been successfully assigned to {enclosure.get_enclosure_id()}."
 
 def clean_enclosure():
-    ...
+    dirty_enclosures = Enclosure.get_dirty_enclosures()
+    if not dirty_enclosures:
+        print("There are currently no dirty enclosures to clean.")
+        return
+    print(f"The following enclosures are currently dirty:")
+    print(dirty_enclosures)
+    enclosure_input = input("Please enter the enclosure ID you would like to clean: ")
+    while enclosure_input not in enclosure_register or enclosure_register[enclosure_input].is_clean():
+        enclosure_input = input(f"Please enter the enclosure ID you would like to clean: ")
+    print(f"The following zookeepers are currently available to clean:")
+    print(Zookeeper.display_zookeepers())
+    cleaner_input = input(f"Please enter the staff ID of the zookeeper you'd like to do the cleaning: ").strip().lower().capitalize()
+    while cleaner_input not in staff_register or staff_register[cleaner_input].get_occupation() is not 'Zookeeper':
+        cleaner_input = input(f"Please enter a valid zookeeper staff ID: ").strip().lower().capitalize()
+    cleaner = staff_register[cleaner_input]
+    enclosure = enclosure_register[enclosure_input]
+    cleaner.clean_enclosure(enclosure)
+
+
+
 
 # assign_animal_to_enclosure()
