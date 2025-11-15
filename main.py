@@ -12,6 +12,8 @@ from staff import Staff, staff_register, Zookeeper
 
 
 def create_enclosure() -> Enclosure:
+    """Function to create an enclosure. Function is driven by user input and presents a list of the valid responses prior to prompting for input, then validates the user response.
+    It asks the user to determine the enclosure biome and size, then adds the object to the enclosure register dictionary with an automatically generated enclosure ID as the dictionary key."""
     biomes = ['Salt water', 'Fresh water', 'Alpine', 'Savannah', 'Rain forest', 'Woods', 'Mountains']
     biome = input(f"Please enter the biome of the new enclosure. Must be one of {biomes}: ").strip().lower().capitalize()
     while biome not in biomes:
@@ -30,11 +32,15 @@ def create_enclosure() -> Enclosure:
     return new_enclosure
 
 def display_enclosure_data() -> None:
+    """Function to display the enclosure data. Function is driven by user input. The function uses an Enclosure class method to compile the data from the Enclosure register dictionary."""
     print("-" * 25, 'Enclosure Register', "-" * 25)
     print(F"Enclosure ID |   BIOME   | STATUS |  SIZE  | OCCUPANT")
     print(Enclosure.get_enclosure_data())
 
 def create_animal(**kwargs) -> Mammal | Reptile | Bird:
+    """Function to create a new animal. Function is driven by user input and presents a list of the valid responses prior to prompting for input. Function validate the user response prior
+    proceeding. Depending on user input, function prompts user for class specific attributes, then calls the animal parent class __init__ function to create the object and pass the
+    class specific attributes to the corresponding child class. The animal object is then stored in the animal register dictionary with an automatically generated animal ID as the dictionary key."""
     families = dict(Mammal=Mammal, Reptile=Reptile, Bird=Bird)
     habitats = ['Salt water', 'Fresh water', 'Alpine', 'Savannah', 'Rain forest', 'Woods', 'Mountains']
     diets = ['Herbivore', 'Carnivore', 'Omnivore']
@@ -122,6 +128,9 @@ def create_animal(**kwargs) -> Mammal | Reptile | Bird:
         return new_animal
 
 def update_schedule():
+    """Function to update the schedule for a selected employee. Function prompts the user to input the employee ID, providing a full list of employees on invalid input.
+    On input of a valid employee ID, the user is presented with the current employee schedule for each day, confirms which day of the week they would like to update, update the user schedule,
+    and prints a confirmation message with the updated details on completion."""
     employee_id = input("Please enter the full Staff ID of the employee you would like to update (e.g. StaffID.1): ")
     while employee_id not in staff_register:
         employee_id = input("Please enter a valid staff ID: ")
@@ -138,6 +147,10 @@ def update_schedule():
     print(f"Updated schedule for {employee.get_name()} on {day} is {task}")
 
 def assign_animal_to_enclosure():
+    """Function to assign and animal to an enclosure. Function first confirms whether animals or enclosures exist, then asks for the ID of the animal, validating the input against the animal
+    registry. It then prompts for the enclosure ID to be added and validates whether it is occupied and matches the animal biome. If unoccupied and biome match, it prompts the user if they
+    would like to clean the enclosure, calling the clean enclosure function if user confirms. It then updates the enclosure object attributes to reflect it is now occupied and updates
+    the animal object with the enclosure ID."""
     if not animal_register:
         print("No animals have been registered. Please create an animal record prior to assigning an enclosure.")
         return
@@ -183,6 +196,8 @@ def assign_animal_to_enclosure():
     return f"{animal.get_name()} the {animal.get_species()} has been successfully assigned to {enclosure.get_enclosure_id()}."
 
 def clean_enclosure():
+    """Function to clean enclosures. It confirms if there are any dirty enclosures, and if so, prints a list of the dirty enclosures. From there it prompts and validates user input.
+    It prompts and validates user to select the employee ID of a zookeeper to conduct the cleaning, updating the enclosure object on completion."""
     dirty_enclosures = Enclosure.get_dirty_enclosures()
     if not dirty_enclosures:
         print("There are currently no dirty enclosures to clean.")
