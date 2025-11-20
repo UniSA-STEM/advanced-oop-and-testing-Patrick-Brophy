@@ -31,13 +31,13 @@ class Staff(ABC):
     def get_salary(self) -> int: return self.__salary
     def get_occupation(self) -> str: return self.__occupation
 
-    @classmethod
-    def get_staff_details(cls):
+    @staticmethod
+    def get_staff_details():
         staff_details = []
-        print(f"{"-" * 15} Staff Details {"-" * 15}")
+        print(f"{'-' * 15} Staff Details {'-' * 15}")
         print(f"STAFF ID |    Name    |  Salary  |  Occupation")
         for key, value in staff_register.items():
-            staff_details.append(f"{key:<11}{value.__name:<14}{value.__salary:<11}{value.__occupation}")
+            staff_details.append(f"{key:<11}{value.get_name():<14}{value.get_salary():<11}{value.get_occupation()}")
         return "\n".join(staff_details)
 
     def increase_salary(self, amount: int):
@@ -74,8 +74,15 @@ class Zookeeper(Staff):
 
     @staticmethod
     def display_zookeepers():
-        zookeepers = [[value.get_staff_id(), value.get_name()] for key, value in staff_register.items() if value.get_occupation() == 'Zookeeper']
-        return zookeepers
+        zookeepers = []
+        for key, value in staff_register.items():
+            if value.get_occupation() == 'Zookeeper':
+                zookeepers.append(f"{value.get_staff_id()}: {value.get_name()}")
+        if not zookeepers:
+            return "No zookeepers found."
+        else:
+            results_string = "\n".join(zookeepers)
+            return f"The following zookeepers were found:\n{results_string}"
 
 class Vet(Staff):
     ...

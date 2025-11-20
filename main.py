@@ -210,7 +210,7 @@ def clean_enclosure():
     print(f"The following zookeepers are currently available to clean:")
     print(Zookeeper.display_zookeepers())
     cleaner_input = input(f"Please enter the staff ID of the zookeeper you'd like to do the cleaning: ").strip().lower().capitalize()
-    while cleaner_input not in staff_register or staff_register[cleaner_input].get_occupation() is not 'Zookeeper':
+    while cleaner_input not in staff_register or staff_register[cleaner_input].get_occupation() != 'Zookeeper':
         cleaner_input = input(f"Staff ID not found. Please enter a valid zookeeper staff ID: ").strip().lower().capitalize()
     cleaner = staff_register[cleaner_input]
     enclosure = enclosure_register[enclosure_input]
