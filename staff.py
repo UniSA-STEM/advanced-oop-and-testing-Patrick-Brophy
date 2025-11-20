@@ -89,8 +89,15 @@ class Vet(Staff):
 
     @staticmethod
     def display_vets():
-        vets = [[value.get_staff_id(), value.get_name()] for key, value in staff_register.items() if value.get_occupation() == 'Vet']
-        return vets
+        vets = []
+        for key, value in staff_register.items():
+            if value.get_occupation() == 'Vet':
+                vets.append(f"{value.get_staff_id()}: {value.get_name()}")
+        if not vets:
+            return "No vets found."
+        else:
+            results_string = "\n".join(vets)
+            return f"The following vets were found:\n{results_string}"
 
     def check_animal(self):
         print(Animal.display_animals())
@@ -126,6 +133,11 @@ class Vet(Staff):
         }
         animal_object.add_new_health_record(case_id, treatment_record)
         return f"{case_id} added to {animal_object.get_name()}'s health record with the following information: {treatment_record}"
+
+    def update_health_record(self):
+        ...
+
+
 
 patrick = Vet('Patrick', '160000', 'Vet')
 patrick2 = Zookeeper('Patrick', '160000', 'Zookeeper')
