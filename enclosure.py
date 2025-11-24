@@ -59,6 +59,24 @@ class Enclosure:
             results_string = "\n".join(search_results)
             return f"The following enclosures matching '{search_term}' were found:\n {results_string}"
 
+    @staticmethod
+    def remove_enclosure() -> str:
+        print(Enclosure.get_enclosure_data())
+        choice = input("Enter the ID of the enclosure you would like to remove: ")
+        if choice not in enclosure_register:
+            return f"No enclosures matching {choice} found."
+        enclosure = enclosure_register[choice]
+        if enclosure.
+        confirmation = input(f"Are you sure you want to remove {enclosure.get_enclosure_id()} - y/n: ").strip().lower()
+        while confirmation not in ['y', 'n']:
+            confirmation = input(f"Invalid entry. Please enter 'y' or 'n: ").strip().lower()
+        if confirmation == 'y':
+            del enclosure_register[choice]
+            return f"Enclosure {choice} removed."
+        else:
+            return f"Removal of enclosure cancelled."
+
+
 
 # Enclosure_1 = Enclosure('Woods', 250)
 # Enclosure_2 = Enclosure('Woods', 250)
