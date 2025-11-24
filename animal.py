@@ -6,6 +6,8 @@ ID: 110070814
 Username: bropy009
 This is my own work as defined by the University's Academic Integrity Policy.
 '''
+from enclosure import enclosure_register
+
 animal_register = {}
 from abc import ABC
 
@@ -89,6 +91,15 @@ class Animal(ABC):
 
     def search_health_record(self):
         ...
+
+    def remove_animal_from_enclosure(self) -> str | None:
+        if not self.__enclosure_ID:
+            return f"{self.get_id()}: {self.get_name()} is not currently assigned to an enclosure."
+        else:
+            print(f"{self.get_id()}: {self.get_name()} removed from {self.__enclosure_ID}."
+            enclosure = enclosure_register[self.__enclosure_ID]
+            enclosure.set_occupancy()
+            return
 
 class Mammal(Animal):
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,

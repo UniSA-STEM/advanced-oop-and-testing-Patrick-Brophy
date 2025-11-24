@@ -1,11 +1,11 @@
-'''
+"""
 File: filename.py
 Description: A brief description of this Python module.
 Author: Patrick Brophy
 ID: 110070814
 Username: bropy009
 This is my own work as defined by the University's Academic Integrity Policy.
-'''
+"""
 from abc import ABC
 
 from animal import Animal, Mammal, Reptile, Bird, animal_register
@@ -43,7 +43,10 @@ class Staff(ABC):
     def increase_salary(self, amount: int):
         self.__salary += amount
 
-    def remove_staff(self, staff_id: str):
+    @staticmethod
+    def remove_staff():
+        print(Staff.get_staff_details())
+        staff_id = input("Enter the staff ID of the staff you would like to remove: ")
         staff = staff_register[staff_id]
         if not staff:
             print(f"No staff with ID {staff_id} found.")
