@@ -135,11 +135,13 @@ class Vet(Staff):
         return f"{case_id} added to {animal_object.get_name()}'s health record with the following information: {treatment_record}"
 
     def update_health_record(self):
+        search = input("Enter the health record case ID to update: ")
+        if search not in animal_register.items(
         ...
 
 
 
-patrick = Vet('Patrick', '160000', 'Vet')
-patrick2 = Zookeeper('Patrick', '160000', 'Zookeeper')
-# patrick.check_animal()
-print(Zookeeper.display_zookeepers())
+# patrick = Vet('Patrick', '160000', 'Vet')
+# patrick2 = Zookeeper('Patrick', '160000', 'Zookeeper')
+# # patrick.check_animal()
+# print(Zookeeper.display_zookeepers())

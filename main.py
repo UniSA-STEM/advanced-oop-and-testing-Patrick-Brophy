@@ -22,7 +22,7 @@ def create_enclosure() -> Enclosure:
         try:
             size = int(input("Please enter the size of the new enclosure in square metres: "))
             if size < 1:
-                print("Please enter a positive integer")
+                print("Please enter a positive whole number.")
                 continue
             break
         except ValueError:

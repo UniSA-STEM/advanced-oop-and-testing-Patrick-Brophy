@@ -41,6 +41,9 @@ class Animal(ABC):
     def get_diet(self) -> str: return self.__diet
     def get_health(self) -> str: return self.__health
     def set_enclosure_ID(self, enclosure_id: str) -> None: self.__enclosure_ID = enclosure_id
+    def get_on_display(self) -> bool: return self.__on_display
+    def set_on_display(self, on_display: bool) -> None: self.__on_display = on_display
+    def get_health_record(self) -> dict: return self.__health_record
 
     @staticmethod
     def display_animals():
@@ -83,6 +86,9 @@ class Animal(ABC):
         else:
             results_string = "\n".join(search_results)
             return f"The following animals matching '{search_term}' were found:\n {results_string}"
+
+    def search_health_record(self):
+        ...
 
 class Mammal(Animal):
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,
