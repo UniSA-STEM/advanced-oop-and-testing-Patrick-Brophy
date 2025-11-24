@@ -96,10 +96,9 @@ class Animal(ABC):
         if not self.__enclosure_ID:
             return f"{self.get_id()}: {self.get_name()} is not currently assigned to an enclosure."
         else:
-            print(f"{self.get_id()}: {self.get_name()} removed from {self.__enclosure_ID}."
             enclosure = enclosure_register[self.__enclosure_ID]
             enclosure.set_occupancy()
-            return
+            return f"{self.get_id()}: {self.get_name()} removed from {enclosure.get_enclosure_id()}.
 
 class Mammal(Animal):
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,
