@@ -44,7 +44,21 @@ class Staff(ABC):
         self.__salary += amount
 
     def remove_staff(self, staff_id: str):
-        ...
+        staff = staff_register[staff_id]
+        if not staff:
+            print(f"No staff with ID {staff_id} found.")
+            return
+        print(f"You have selected {staff.get_name()} the {staff.get_occupation()}.")
+        choice = input("Would you like to remove this staff member? (y/n)").strip().lower()
+        while choice not in ["y", "n"]:
+            choice = input("Invalid input. Please enter y/n: ").strip().lower()
+        if choice == "y":
+            del staff_register[staff_id]
+            print(f"You have removed {staff_id}.")
+            return
+        if choice == "n":
+            print(f"Removal of {staff_id} cancelled.")
+            return
 
     @staticmethod
     def staff_search():
@@ -62,7 +76,6 @@ class Staff(ABC):
             return f"The following staff matching '{search_term}' were found:\n {results_string}"
 
 class Zookeeper(Staff):
-    ...
 
     def clean_enclosure(self, enclosure):
         print(f"{self.__name} is now cleaning {enclosure.get_enclosure_id()}")
@@ -85,7 +98,6 @@ class Zookeeper(Staff):
             return f"The following zookeepers were found:\n{results_string}"
 
 class Vet(Staff):
-    ...
 
     @staticmethod
     def display_vets():
@@ -134,10 +146,19 @@ class Vet(Staff):
         animal_object.add_new_health_record(case_id, treatment_record)
         return f"{case_id} added to {animal_object.get_name()}'s health record with the following information: {treatment_record}"
 
-    def update_health_record(self):
-        search = input("Enter the health record case ID to update: ")
-        if search not in animal_register.items(
-        ...
+    # def update_health_record(self):
+    #     search = input(f"Enter the health record case ID to update: ")
+    #     for animal in animal_register.values():
+    #         if search in animal.get_health_record():
+    #             target = animal
+    #             break
+    #     if not target:
+    #         return f"No health record found."
+    #     record = target.get_health_record()[search]
+    #     print(f"\nUpdating record: {search} for {target.get_name()} the {target.get_species()}. Current details: {record}")
+    #     new_report_date = input(f'Enter new report date: ')
+    #     new_diagnosis = input(f'Enter new diagnosis: ')
+    #     new_treatment = input(f'Enter new treatment: ')
 
 
 
