@@ -51,7 +51,7 @@ class Staff(ABC):
     def remove_staff():
         print(Staff.get_staff_details())
         staff_id = input("Enter the staff ID of the staff you would like to remove: ")
-        staff = staff_register[staff_id]
+        staff = staff_register.get(staff_id)
         if not staff:
             print(f"No staff with ID {staff_id} found.")
             return
@@ -61,11 +61,9 @@ class Staff(ABC):
             choice = input("Invalid input. Please enter y/n: ").strip().lower()
         if choice == "y":
             del staff_register[staff_id]
-            print(f"You have removed {staff_id}.")
-            return
-        if choice == "n":
-            print(f"Removal of {staff_id} cancelled.")
-            return
+            return f"You have removed {staff_id}."
+        else:
+            return f"Removal of {staff_id} cancelled."
 
     @staticmethod
     def staff_search():
