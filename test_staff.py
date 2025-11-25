@@ -1,5 +1,17 @@
 import pytest
-from staff import *
+from staff import Staff, staff_register
+
+class TestStaff:
+    def __init__(self, staff_id, first_name, last_name, occupation):
+        self._staff_id = staff_id
+        self._first_name = first_name
+        self._last_name = last_name
+        self._occupation = occupation
+
+        def get_staff_id(self): return self._staff_id
+        def get_first_name(self): return self._first_name
+        def get_full_name(self): return f"{self._last_name}, {self._first_name}"
+        def get_occupation(self): return self._occupation
 
 def test_create_zookeeper_staff(monkeypatch):
     """Testing the create staff function by creating a zookeeper staff."""
@@ -19,3 +31,11 @@ def test_create_vet_staff(monkeypatch):
                        "John can now be assigned a schedule and tasks related to their role.")
     result = Staff.create_staff()
     assert result == expected_output
+
+def synthetic_staff_register(monkeypatch):
+    """Pre filled staff register function."""
+    staff_register.clear()
+    staff_register['Staff_1'] = TestStaff('Staff_1', 'John', 'Doe', 'Zookeeper')
+    staff_register['Staff_2'] = TestStaff('Staff_2', 'Jane', 'Deer', 'Vet')
+    monkeypatch.setattr(Staff, 'get_staff_details', lambda: 'Mock Staff Details List')
+    return staff_register
