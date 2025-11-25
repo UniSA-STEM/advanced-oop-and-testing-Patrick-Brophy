@@ -100,6 +100,20 @@ class Animal(ABC):
             enclosure.set_occupancy()
             return f"{self.get_id()}: {self.get_name()} removed from {enclosure.get_enclosure_id()}.
 
+    def remove_animal_record(self):
+        animal = input(f"Enter the ID of the animal you would like to remove: ")
+        while animal not in animal_register.keys():
+            print(Animal.display_animals())
+            animal = input(f"Invalid input. Enter the ID of the animal you would like to remove: ")
+        choice = input(f"Are you sure you want to remove {animal} - y/n: ").strip().lower()
+        while choice not in ['y', 'n']:
+            choice = input(f"Invalid entry. Please enter 'y' or 'n: ").strip().lower()
+            if choice == 'y':
+                del animal_register[animal]
+                return None
+            else:
+                return f"Animal removal cancelled."
+
 class Mammal(Animal):
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,
                  coat_colour: str,

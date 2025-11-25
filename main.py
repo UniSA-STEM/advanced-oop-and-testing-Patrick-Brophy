@@ -186,7 +186,7 @@ def assign_animal_to_enclosure():
             zookeepers = Zookeeper.display_zookeepers()
             print(f"The below zookeepers are available to clean {enclosure.get_enclosure_id()}.")
             print(zookeepers)
-            zookeeper_ids = [_[0] for _ in zookeepers]
+            zookeeper_ids = [i[0] for i in zookeepers]
             choice = input(f"Enter the ID of the zookeeper you'd like to clean the enclosure: ").strip().lower().capitalize()
             while choice not in zookeeper_ids:
                 choice = input(f"Please entera valid zookeeper ID: ").strip().lower().capitalize()

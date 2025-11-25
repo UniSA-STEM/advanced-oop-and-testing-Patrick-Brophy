@@ -66,7 +66,6 @@ class Enclosure:
         if choice not in enclosure_register:
             return f"No enclosures matching {choice} found."
         enclosure = enclosure_register[choice]
-        if enclosure.
         confirmation = input(f"Are you sure you want to remove {enclosure.get_enclosure_id()} - y/n: ").strip().lower()
         while confirmation not in ['y', 'n']:
             confirmation = input(f"Invalid entry. Please enter 'y' or 'n: ").strip().lower()
