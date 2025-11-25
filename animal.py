@@ -12,6 +12,8 @@ animal_register = {}
 from abc import ABC
 
 class Animal(ABC):
+    """Abstract base class for animals. Contains generic methods common to all animals. Has been implemented as an Abstract Base Class as all instances of Animal objects need
+    to belong to the child classes."""
     animal_counter = 1
     def __init__(self, family: str, species: str, name: str, age: int, gender: str, biome: str, diet: str, **kwargs) -> None:
         super().__init__(**kwargs)
@@ -31,6 +33,7 @@ class Animal(ABC):
         animal_register[self.__id] = self
 
     def get_display_data(self) -> str:
+        """Method to retrieve and format attributes common to all animals. Primarily used as a helper function for the display animals function."""
         common_data = f"{self.__family:<10}{self.__species:<13} {self.__name:<14} {self.__age:<5} {self.__gender:<13}{ 'Yes' if self.__on_display else 'No':<8} {self.__biome:<13} {self.__diet:<15}"
         return common_data
 
@@ -49,6 +52,8 @@ class Animal(ABC):
 
     @staticmethod
     def display_animals():
+        """Method to retrieve and display animal attributes and display results in a readable format.
+        FEATURES column is to display Class specific attributes for the various child classes."""
         display_details = []
         print("-" * 45, 'Animal Register', "-" * 45)
         print("ANIMAL ID | CLASS   |   SPECIES   |     NAME    |  AGE | GENDER | ON DISPLAY |   HABITAT   |     DIET     |   FEATURES")
@@ -58,9 +63,10 @@ class Animal(ABC):
 
     @staticmethod
     def get_health_status():
+        """Method to retrieve and display health status of the animal and display results."""
         animal_health_list = []
         for animal in animal_register.values():
-            animal_health_list.append(f"{animal.__id}: {animal.__name} the {animal.__species}'s current health status is: {animal.__health}")
+            animal_health_list.append(f"{animal.__id}: {animal.__full_name} the {animal.__species}'s current health status is: {animal.__health}")
         return animal_health_list
 
     def get_animal_health(self):
@@ -74,15 +80,17 @@ class Animal(ABC):
 
     @staticmethod
     def animal_search():
+        """Method to enable user to search across various attributes of animals and display results in a readable format.
+        Advises the user if no matching results found."""
         search_results = []
         search_term = input("Enter the ID, name, species, biome, or class of the animal you are searching for: ").strip().lower().capitalize()
         for key, value in animal_register.items():
-            if (search_term in value.get_name()
+            if (search_term in value.get_full_name()
             or search_term in value.get_biome()
             or search_term in value.get_species()
             or search_term in value.get_family()
             or search_term in value.get_id()):
-                search_results.append(f"{value.get_id()}: {value.get_name()} the {value.get_species()} of class {value.get_family()}, native to {value.get_biome()}")
+                search_results.append(f"{value.get_id()}: {value.get_full_name()} the {value.get_species()} of class {value.get_family()}, native to {value.get_biome()}")
         if not search_results:
             return f"No animals matching {search_term} found."
         else:
@@ -93,6 +101,8 @@ class Animal(ABC):
         ...
 
     def remove_animal_from_enclosure(self) -> str | None:
+        """Method to remove an animal from an enclosure. Method confirms whether the animal is assigned to an enclosure, and if it is, removes the animal
+        and updates the occupancy status of the enclosure"""
         if not self.__enclosure_id:
             return f"{self.get_id()}: {self.get_name()} is not currently assigned to an enclosure."
         else:
@@ -102,6 +112,8 @@ class Animal(ABC):
 
     @staticmethod
     def remove_animal_record():
+        """Method to remove an animal record entirely from the system. Proompts the user for input, validating it matches an existing animal ID, and where a match is found,
+        prompts the user to confirm they wish to remove the record. If confirmed, it removes the animal from the animal registry."""
         animal = input(f"Enter the ID of the animal you would like to remove: ")
         while animal not in animal_register.keys():
             print(Animal.display_animals())
@@ -116,6 +128,7 @@ class Animal(ABC):
             return f"Animal removal cancelled."
 
 class Mammal(Animal):
+    """Child class of the Animal parent class. Houses the Mammal specific attributes."""
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,
                  coat_colour: str,
                  **kwargs: object) -> None:
@@ -124,28 +137,33 @@ class Mammal(Animal):
         self.__coat_colour = coat_colour
 
     def get_display_data(self) -> str:
+        """Method to retrieve and append the Mammal specific attributes to the display data method held against the Animal parent class."""
         base_data = super().get_display_data()
         mammal_data = f"{self.__coat:<7} {self.__coat_colour}"
         return base_data + mammal_data
 
 class Reptile(Animal):
+    """Child class of the Animal parent class. Houses the Reptile specific attributes."""
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, skin: str, skin_colour: str, **kwargs) -> None:
         super().__init__(family='Reptile', species=species, name=name, age=age, gender=gender, biome=biome, diet=diet, **kwargs)
         self.__skin = skin
         self.__skin_colour = skin_colour
 
     def get_display_data(self) -> str:
+        """Method to retrieve and append the Reptile specific attributes to the display data method held against the Animal parent class."""
         base_data = super().get_display_data()
         reptile_data = f"{self.__skin:<7} {self.__skin_colour}"
         return base_data + reptile_data
 
 class Bird(Animal):
+    """Child class of the Animal parent class. Houses the Bird specific attributes."""
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, fly: str, wing_span: int, **kwargs) -> None:
         super().__init__(family='Bird', name=name, age=age, gender=gender, species=species, biome=biome, diet=diet, **kwargs)
         self.__fly = fly
         self.__wing_span = wing_span
 
     def get_display_data(self) -> str:
+        """Method to retrieve and append the Bird specific attributes to the display data method held against the Animal parent class."""
         base_data = super().get_display_data()
         bird_data = f"{self.__fly:<7} {self.__wing_span}cm"
         return base_data + bird_data

@@ -135,16 +135,16 @@ def update_schedule():
     while employee_id not in staff_register:
         employee_id = input("Please enter a valid staff ID: ")
     employee = staff_register[employee_id]
-    print(f"{employee_id}: {employee.get_name()} selected.\nCurrent schedule is: ")
+    print(f"{employee_id}: {employee.get_full_name()} selected.\nCurrent schedule is: ")
     schedule = employee.get_schedule()
     for day, task in (schedule.items()):
         print(f"{day}: {task}")
     day = input('Please enter the day of the week you would like to update: ').strip().lower().capitalize()
     while day not in schedule:
         day = input("Please enter a valid day of the week to update: ").strip().lower().capitalize()
-    task = input(f"Please enter the task add to {employee.get_name()}'s schedule: ").strip().lower().capitalize()
+    task = input(f"Please enter the task add to {employee.get_full_name()}'s schedule: ").strip().lower().capitalize()
     schedule[day] = task
-    print(f"Updated schedule for {employee.get_name()} on {day} is {task}")
+    print(f"Updated schedule for {employee.get_full_name()} on {day} is {task}")
 
 def assign_animal_to_enclosure():
     """Function to assign and animal to an enclosure. Function first confirms whether animals or enclosures exist, then asks for the ID of the animal, validating the input against the animal
@@ -165,9 +165,9 @@ def assign_animal_to_enclosure():
         else:
             print(f"Please enter a valid animal ID. Current animal list below: \n"
                   f"{Animal.display_animals()}")
-    print(f"{animal.get_name()} the {animal.get_species()} can be assigned to an empty enclosure of the {animal.get_biome()} biome.")
+    print(f"{animal.get_full_name()} the {animal.get_species()} can be assigned to an empty enclosure of the {animal.get_biome()} biome.")
     while True:
-        enclosure_input = input(f"Please enter the ID of the enclosure you would like to assign {animal.get_name()} to: ").strip().lower().capitalize()
+        enclosure_input = input(f"Please enter the ID of the enclosure you would like to assign {animal.get_full_name()} to: ").strip().lower().capitalize()
         if enclosure_input not in enclosure_register:
             print(f"Please enter a valid enclosure ID. Current enclosure list below: \n"
                   f"{Enclosure.get_enclosure_data()}")
@@ -193,7 +193,7 @@ def assign_animal_to_enclosure():
             selected_staff = staff_register[choice]
             selected_staff.clean_enclosure(enclosure)
     animal.set_enclosure_id(enclosure.get_enclosure_id())
-    return f"{animal.get_name()} the {animal.get_species()} has been successfully assigned to {enclosure.get_enclosure_id()}."
+    return f"{animal.get_full_name()} the {animal.get_species()} has been successfully assigned to {enclosure.get_enclosure_id()}."
 
 def clean_enclosure():
     """Function to clean enclosures. It confirms if there are any dirty enclosures, and if so, prints a list of the dirty enclosures. From there it prompts and validates user input.

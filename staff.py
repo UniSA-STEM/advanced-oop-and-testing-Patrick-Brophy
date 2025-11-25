@@ -15,10 +15,12 @@ staff_register = {}
 class Staff(ABC):
     staff_counter = 1
     health_record_counter = 1
-    def __init__(self, name: str, salary: int, occupation: str, **kwargs):
+    def __init__(self, first_name: str, last_name: str, salary: int, occupation: str, **kwargs):
         super().__init__(**kwargs)
         self.__staff_id = f"Staff_{Staff.staff_counter}"
-        self.__name = name.strip().lower().capitalize()
+        self.__first_name = first_name.strip().lower().capitalize()
+        self.__last_name = last_name.strip().lower().capitalize()
+        self.__full_name = f"{self.__last_name}, {self.__first_name}"
         self.__salary = salary
         self.__schedule = {'Monday': None, 'Tuesday': None, 'Wednesday': None, 'Thursday': None, 'Friday': None, 'Saturday': None, 'Sunday': None}
         self.__occupation = occupation.strip().lower().capitalize()
@@ -26,7 +28,9 @@ class Staff(ABC):
         Staff.staff_counter += 1
 
     def get_staff_id(self): return self.__staff_id
-    def get_name(self) -> str: return self.__name
+    def get_first_name(self): return self.__first_name
+    def get_last_name(self): return self.__last_name
+    def get_full_name(self) -> str: return self.__full_name
     def get_schedule(self) -> dict: return self.__schedule
     def get_salary(self) -> int: return self.__salary
     def get_occupation(self) -> str: return self.__occupation
@@ -37,7 +41,7 @@ class Staff(ABC):
         print(f"{'-' * 15} Staff Details {'-' * 15}")
         print(f"STAFF ID |    Name    |  Salary  |  Occupation")
         for key, value in staff_register.items():
-            staff_details.append(f"{key:<11}{value.get_name():<14}{value.get_salary():<11}{value.get_occupation()}")
+            staff_details.append(f"{key:<11}{value.get_full_name():<14}{value.get_salary():<11}{value.get_occupation()}")
         return "\n".join(staff_details)
 
     def increase_salary(self, amount: int):
@@ -51,7 +55,7 @@ class Staff(ABC):
         if not staff:
             print(f"No staff with ID {staff_id} found.")
             return
-        print(f"You have selected {staff.get_name()} the {staff.get_occupation()}.")
+        print(f"You have selected {staff.get_full_name()} the {staff.get_occupation()}.")
         choice = input("Would you like to remove this staff member? (y/n)").strip().lower()
         while choice not in ["y", "n"]:
             choice = input("Invalid input. Please enter y/n: ").strip().lower()
@@ -68,20 +72,43 @@ class Staff(ABC):
         search_results = []
         search_term = input("Enter the employee ID, name, or occupation of the staff you are searching for: ").strip().lower().capitalize()
         for key, value in staff_register.items():
-            if (search_term in value.get_name()
+            if (search_term in value.get_full_name()
             or search_term in value.get_staff_id()
             or search_term in value.get_occupation()):
-                search_results.append(f"{value.get_staff_id}: {value.get_name} the {value.get_occupation}")
+                search_results.append(f"{value.get_staff_id()}: {value.get_full_name()} the {value.get_occupation()}")
         if not search_results:
             return f"No staff matching {search_term} found."
         else:
             results_string = "\n".join(search_results)
             return f"The following staff matching '{search_term}' were found:\n {results_string}"
 
+    @staticmethod
+    def create_staff():
+        roles = {'zookeeper': Zookeeper, 'vet': Vet}
+        first_name: str = input("Enter the first name of the employee: ").strip().lower().capitalize()
+        last_name: str = input("Enter the last name of the employee: ").strip().lower().capitalize()
+        occupation: str = input("Is the employee a zookeeper or a vet?: ").strip().lower()
+        while occupation not in roles.keys():
+            occupation: str = input("Invalid input. Please enter zookeeper or vet: ").strip().lower()
+        while True:
+            try:
+                salary: int = int(input("Enter the salary of the employee: "))
+                if salary < 0:
+                    print("Invalid input. Please enter a positive number.")
+                    continue
+                else:
+                    break
+            except ValueError:
+                print(f"Invalid input. Please enter salary of employee as an integer.")
+        role = roles[occupation]
+        employee = role(first_name, last_name, salary, occupation)
+        return (f"{employee.get_first_name()} {employee.get_last_name()} the {employee.get_occupation()} has been created.\n"
+                f"{employee.get_first_name()} can now be assigned a schedule and tasks related to their role.")
+
 class Zookeeper(Staff):
 
     def clean_enclosure(self, enclosure):
-        print(f"{self.__name} is now cleaning {enclosure.get_enclosure_id()}")
+        print(f"{self.get_first_name()} is now cleaning {enclosure.get_enclosure_id()}")
         enclosure.set_is_clean()
         return f"{enclosure.get_enclosure_id()} cleaned."
 
@@ -93,7 +120,7 @@ class Zookeeper(Staff):
         zookeepers = []
         for key, value in staff_register.items():
             if value.get_occupation() == 'Zookeeper':
-                zookeepers.append(f"{value.get_staff_id()}: {value.get_name()}")
+                zookeepers.append(f"{value.get_staff_id()}: {value.get_full_name()}")
         if not zookeepers:
             return "No zookeepers found."
         else:
@@ -107,7 +134,7 @@ class Vet(Staff):
         vets = []
         for key, value in staff_register.items():
             if value.get_occupation() == 'Vet':
-                vets.append(f"{value.get_staff_id()}: {value.get_name()}")
+                vets.append(f"{value.get_staff_id()}: {value.get_full_name()}")
         if not vets:
             return "No vets found."
         else:
@@ -147,7 +174,7 @@ class Vet(Staff):
             'Treatment': treatment,
         }
         animal_object.add_new_health_record(case_id, treatment_record)
-        return f"{case_id} added to {animal_object.get_name()}'s health record with the following information: {treatment_record}"
+        return f"{case_id} added to {animal_object.get_full_name()}'s health record with the following information: {treatment_record}"
 
     # def update_health_record(self):
     #     search = input(f"Enter the health record case ID to update: ")
@@ -158,7 +185,7 @@ class Vet(Staff):
     #     if not target:
     #         return f"No health record found."
     #     record = target.get_health_record()[search]
-    #     print(f"\nUpdating record: {search} for {target.get_name()} the {target.get_species()}. Current details: {record}")
+    #     print(f"\nUpdating record: {search} for {target.get_full_name()} the {target.get_species()}. Current details: {record}")
     #     new_report_date = input(f'Enter new report date: ')
     #     new_diagnosis = input(f'Enter new diagnosis: ')
     #     new_treatment = input(f'Enter new treatment: ')
