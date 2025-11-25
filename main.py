@@ -192,7 +192,7 @@ def assign_animal_to_enclosure():
                 choice = input(f"Please entera valid zookeeper ID: ").strip().lower().capitalize()
             selected_staff = staff_register[choice]
             selected_staff.clean_enclosure(enclosure)
-    animal.set_enclosure_ID(enclosure.get_enclosure_id())
+    animal.set_enclosure_id(enclosure.get_enclosure_id())
     return f"{animal.get_name()} the {animal.get_species()} has been successfully assigned to {enclosure.get_enclosure_id()}."
 
 def clean_enclosure():

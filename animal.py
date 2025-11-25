@@ -1,11 +1,11 @@
-'''
+"""
 File: animal.py
 Description: Lorem
 Author: Patrick Brophy
 ID: 110070814
 Username: bropy009
 This is my own work as defined by the University's Academic Integrity Policy.
-'''
+"""
 from enclosure import enclosure_register
 
 animal_register = {}
@@ -25,7 +25,7 @@ class Animal(ABC):
         self.__diet = diet
         self.__health = 'Healthy'
         self.__health_record = {}
-        self.__enclosure_ID = None
+        self.__enclosure_id = None
         self.__on_display = False
         Animal.animal_counter += 1
         animal_register[self.__id] = self
@@ -42,7 +42,7 @@ class Animal(ABC):
     def get_biome(self) -> str: return self.__biome
     def get_diet(self) -> str: return self.__diet
     def get_health(self) -> str: return self.__health
-    def set_enclosure_ID(self, enclosure_id: str) -> None: self.__enclosure_ID = enclosure_id
+    def set_enclosure_id(self, enclosure_id: str) -> None: self.__enclosure_id = enclosure_id
     def get_on_display(self) -> bool: return self.__on_display
     def set_on_display(self, on_display: bool) -> None: self.__on_display = on_display
     def get_health_record(self) -> dict: return self.__health_record
@@ -93,14 +93,15 @@ class Animal(ABC):
         ...
 
     def remove_animal_from_enclosure(self) -> str | None:
-        if not self.__enclosure_ID:
+        if not self.__enclosure_id:
             return f"{self.get_id()}: {self.get_name()} is not currently assigned to an enclosure."
         else:
-            enclosure = enclosure_register[self.__enclosure_ID]
+            enclosure = enclosure_register[self.__enclosure_id]
             enclosure.set_occupancy()
-            return f"{self.get_id()}: {self.get_name()} removed from {enclosure.get_enclosure_id()}.
+            return f"{self.get_id()}: {self.get_name()} removed from {enclosure.get_enclosure_id()}."
 
-    def remove_animal_record(self):
+    @staticmethod
+    def remove_animal_record():
         animal = input(f"Enter the ID of the animal you would like to remove: ")
         while animal not in animal_register.keys():
             print(Animal.display_animals())
@@ -108,11 +109,11 @@ class Animal(ABC):
         choice = input(f"Are you sure you want to remove {animal} - y/n: ").strip().lower()
         while choice not in ['y', 'n']:
             choice = input(f"Invalid entry. Please enter 'y' or 'n: ").strip().lower()
-            if choice == 'y':
-                del animal_register[animal]
-                return None
-            else:
-                return f"Animal removal cancelled."
+        if choice == 'y':
+            del animal_register[animal]
+            return None
+        else:
+            return f"Animal removal cancelled."
 
 class Mammal(Animal):
     def __init__(self, species: str, name: str, age: int, gender: str, biome: str, diet: str, coat: str,

@@ -1,11 +1,11 @@
-'''
+"""
 File: enclosure.py
 Description: A brief description of this Python module.
 Author: Patrick Brophy
 ID: 110070814
 Username: bropy009
 This is my own work as defined by the University's Academic Integrity Policy.
-'''
+"""
 enclosure_register = {}
 class Enclosure:
     counter = 1
@@ -24,9 +24,9 @@ class Enclosure:
         return self.__biome
     def get_occupancy(self) -> bool:
         return self.__occupancy
-    def set_occupancy(self, animal_ID = None) -> None:
-        if animal_ID is not None:
-            self.__occupancy = animal_ID
+    def set_occupancy(self, animal_id = None) -> None:
+        if animal_id is not None:
+            self.__occupancy = animal_id
         else:
             self.__occupancy = False
     def get_is_clean(self) -> bool:

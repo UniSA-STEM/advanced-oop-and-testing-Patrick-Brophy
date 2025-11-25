@@ -8,7 +8,7 @@ This is my own work as defined by the University's Academic Integrity Policy.
 """
 from abc import ABC
 
-from animal import Animal, Mammal, Reptile, Bird, animal_register
+from animal import Animal, animal_register
 
 staff_register = {}
 
