@@ -19,7 +19,6 @@ def test_create_zookeeper_staff(monkeypatch):
     monkeypatch.setattr('builtins.input', lambda x: next(inputs))
     expected_output = ("Jane Doe the Zookeeper has been created.\n"
                        "Jane can now be assigned a schedule and tasks related to their role.")
-
     result = Staff.create_staff()
     assert result == expected_output
 
@@ -34,7 +33,7 @@ def test_create_vet_staff(monkeypatch):
 
 @pytest.fixture
 def test_synthetic_staff_register(monkeypatch):
-    """Pre filled staff register function. Set as a fixture so staff objects are created by default."""
+    """Pre-filled staff register function. Set as a fixture so staff objects are created by default."""
     staff_register.clear()
     staff_register['Staff_1'] = TestStaff('Staff_1', 'John', 'Doe', 'Zookeeper')
     staff_register['Staff_2'] = TestStaff('Staff_2', 'Jane', 'Deer', 'Vet')
