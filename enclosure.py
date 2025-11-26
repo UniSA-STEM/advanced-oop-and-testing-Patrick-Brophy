@@ -29,9 +29,8 @@ class Enclosure:
             self.__occupancy = animal_id
         else:
             self.__occupancy = False
-    def get_is_clean(self) -> bool:
-        return self.__is_clean
-    def set_is_clean(self) -> None: self.__is_clean = True
+    def get_is_clean(self) -> bool: return self.__is_clean
+    def set_is_clean(self) -> None: self.__is_clean = not self.__is_clean
 
     @staticmethod
     def get_dirty_enclosures():
@@ -51,8 +50,8 @@ class Enclosure:
         search_results = []
         search_term = input("Enter the ID or biome of the enclosure you are searching for: ").strip().lower().capitalize()
         for key, value in enclosure_register.items():
-            if search_term in value.get_id() or search_term in value.get_biome():
-                search_results.append(f"{value.get_id()}: of the {value.get_biome()} biome is currently {value.get_occupancy()} and {value.get_is_clean()}")
+            if search_term in value.get_enclosure_id() or search_term in value.get_enclosure_biome():
+                search_results.append(f"{value.get_enclosure_id()} of the {value.get_enclosure_biome()} biome is currently occupied by {value.get_occupancy()} and is {'dirty' if value.get_is_clean() else 'clean'}")
         if not search_results:
             return f"No enclosures matching {search_term} found."
         else:
