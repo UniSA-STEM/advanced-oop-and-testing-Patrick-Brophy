@@ -12,7 +12,7 @@
 #             self.__is_occupied = not self.__is_occupied
 #             return self.__is_occupied
 #
-# @pytest.fixture(autouse=True)
+# @pytest.fixture
 # def clear_registers():
 #     animal_register.clear()
 #     enclosure_register.clear()
