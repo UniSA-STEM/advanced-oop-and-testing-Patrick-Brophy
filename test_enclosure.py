@@ -1,5 +1,7 @@
 import pytest
 from enclosure import Enclosure, enclosure_register
+from main import enclosure_search
+
 
 @pytest.fixture
 def occupied_enclosures():
@@ -30,5 +32,5 @@ def test_enclosure_search(monkeypatch, occupied_enclosures):
     monkeypatch.setattr('builtins.input', lambda x: next(inputs_id))
     expected_output = ("The following enclosures matching 'Enclosure_3' were found:\n "
                        "Enclosure_3 of the Alpine biome is currently occupied by Animal_1 and is dirty")
-    assert Enclosure.enclosure_search() == expected_output
+    assert enclosure_search() == expected_output
 

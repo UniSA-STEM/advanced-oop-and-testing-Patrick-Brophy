@@ -216,7 +216,115 @@ def clean_enclosure():
     enclosure = enclosure_register[enclosure_input]
     cleaner.clean_enclosure(enclosure)
 
+def remove_enclosure() -> str:
+    print(Enclosure.get_enclosure_data())
+    choice = input("Enter the ID of the enclosure you would like to remove: ")
+    if choice not in enclosure_register:
+        return f"No enclosures matching {choice} found."
+    enclosure = enclosure_register[choice]
+    confirmation = input(f"Are you sure you want to remove {enclosure.get_enclosure_id()} - y/n: ").strip().lower()
+    while confirmation not in ['y', 'n']:
+        confirmation = input(f"Invalid entry. Please enter 'y' or 'n: ").strip().lower()
+    if confirmation == 'y':
+        del enclosure_register[choice]
+        return f"Enclosure {choice} removed."
+    else:
+        return f"Removal of enclosure cancelled."
+
+def enclosure_search():
+    search_results = []
+    search_term = input("Enter the ID or biome of the enclosure you are searching for: ").strip().lower().capitalize()
+    for key, value in enclosure_register.items():
+        if search_term in value.get_enclosure_id() or search_term in value.get_enclosure_biome():
+            search_results.append(f"{value.get_enclosure_id()} of the {value.get_enclosure_biome()} biome is currently occupied by {value.get_occupancy()} and is {'dirty' if value.get_is_clean() else 'clean'}")
+    if not search_results:
+        return f"No enclosures matching {search_term} found."
+    else:
+        results_string = "\n".join(search_results)
+        return f"The following enclosures matching '{search_term}' were found:\n {results_string}"
+
+def check_animal():
+    print(Animal.display_animals())
+    animal = input("Enter the ID of the animal to checked: ").lower().strip().capitalize()
+    while animal not in animal_register:
+            animal = input("Invalid entry. Enter the ID of the animal to be treated: ").lower().strip().capitalize()
+    animal_object = animal_register[animal]
+    animal_object.get_animal_health()
+    choice = input("Do you wish to set up a treatment plan for this animal? (Y/N) ").strip().upper()
+    while choice not in ['Y', 'N']:
+        choice = input("Invalid input. Please enter Y or N.")
+    if choice.lower().strip() == 'y':
+        print(self.add_health_record(animal_object))
+    display_status = input(f'Do you wish to change the display status of this animal? currently {animal_object.get_display_status()} (Y/N) ')
+    while display_status not in ['Y', 'N']:
+        display_status = input("Invalid input. Please enter Y or N.")
+    if display_status.strip().upper() == 'Y':
+        animal_object.set_display_status()
+    else:
+        print(f"Returning to main menu.")
 
 
+def main_menu():
+    menu_actions = {
+        '1': create_enclosure,
+        '2': display_enclosure_data,
+        '3': enclosure_search,
+        '4': remove_enclosure,
+        '5': assign_animal_to_enclosure,
+        '6': clean_enclosure,
+        '7': create_animal,
+        '8': Animal.display_animals,
+        '9': Animal.animal_search,
+        '10': Animal.remove_animal_record,
+        '11': Staff.create_staff,
+        '12': Staff.get_staff_details,
+        '13': Staff.staff_search,
+        '14': update_schedule,
+        '15': Staff.remove_staff,
+        '16': check_animal
+    }
 
-# assign_animal_to_enclosure()
+    while True:
+        print("\n" + "=" * 30)
+        print("      ZOO MANAGEMENT SYSTEM     ")
+        print("=" * 30)
+
+        print("\n--- Enclosure Management ---")
+        print("1. Create New Enclosure")
+        print("2. Display Enclosure Register")
+        print("3. Search Enclosures")
+        print("4. Remove Enclosure")
+        print("5. Assign Animal to Enclosure")
+        print("6. Clean Enclosure")
+
+        print("\n--- Animal Management ---")
+        print("7. Create New Animal Record")
+        print("8. Display Animal Register")
+        print("9. Search Animals")
+        print("10. Remove Animal Record")
+
+        print("\n--- Staff Management & Health ---")
+        print("11. Create New Staff/Vet")
+        print("12. Display Staff Details")
+        print("13. Search Staff")
+        print("14. Update Staff Schedule")
+        print("15. Remove Staff Member")
+        print("16. Vet Check Animal (Health Record)")
+
+        print("\n17. Exit Program")
+        print("-" * 30)
+        try:
+            choice = input("Enter your choice (1-17): ").strip()
+            if choice == '17':
+                print("Exiting Zoo Management System. Goodbye!")
+                break
+            action = menu_actions.get(choice)
+            if action:
+                action()
+            else:
+                print("Invalid choice. Please enter a number between 1 and 17.")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+
+if __name__ == "__main__":
+    main_menu()

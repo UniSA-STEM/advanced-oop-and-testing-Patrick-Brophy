@@ -112,7 +112,7 @@ class Animal(ABC):
 
     @staticmethod
     def remove_animal_record():
-        """Method to remove an animal record entirely from the system. Proompts the user for input, validating it matches an existing animal ID, and where a match is found,
+        """Method to remove an animal record entirely from the system. Prompts the user for input, validating it matches an existing animal ID, and where a match is found,
         prompts the user to confirm they wish to remove the record. If confirmed, it removes the animal from the animal registry."""
         animal = input(f"Enter the ID of the animal you would like to remove: ")
         while animal not in animal_register.keys():

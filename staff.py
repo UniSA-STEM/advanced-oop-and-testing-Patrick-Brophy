@@ -139,26 +139,6 @@ class Vet(Staff):
             results_string = "\n".join(vets)
             return f"The following vets were found:\n{results_string}"
 
-    def check_animal(self):
-        print(Animal.display_animals())
-        animal = input("Enter the ID of the animal to checked: ").lower().strip().capitalize()
-        while animal not in animal_register:
-                animal = input("Invalid entry. Enter the ID of the animal to be treated: ").lower().strip().capitalize()
-        animal_object = animal_register[animal]
-        animal_object.get_animal_health()
-        choice = input("Do you wish to set up a treatment plan for this animal? (Y/N) ").strip().upper()
-        while choice not in ['Y', 'N']:
-            choice = input("Invalid input. Please enter Y or N.")
-        if choice.lower().strip() == 'y':
-            print(self.add_health_record(animal_object))
-        display_status = input(f'Do you wish to change the display status of this animal? currently {animal_object.get_display_status()} (Y/N) ')
-        while display_status not in ['Y', 'N']:
-            display_status = input("Invalid input. Please enter Y or N.")
-        if display_status.strip().upper() == 'Y':
-            animal_object.set_display_status()
-        else:
-            print(f"Returning to main menu.")
-
     @staticmethod
     def add_health_record(animal_object):
         case_id = f"Case_{Staff.health_record_counter}"

@@ -45,36 +45,6 @@ class Enclosure:
             enclosure_data.append(f"{key:<13}: {value.__biome:<11} {'Clean 'if value.__is_clean else 'Dirty':<9} {value.__size:<8} {occupancy}")
         return "\n".join(enclosure_data)
 
-    @staticmethod
-    def enclosure_search():
-        search_results = []
-        search_term = input("Enter the ID or biome of the enclosure you are searching for: ").strip().lower().capitalize()
-        for key, value in enclosure_register.items():
-            if search_term in value.get_enclosure_id() or search_term in value.get_enclosure_biome():
-                search_results.append(f"{value.get_enclosure_id()} of the {value.get_enclosure_biome()} biome is currently occupied by {value.get_occupancy()} and is {'dirty' if value.get_is_clean() else 'clean'}")
-        if not search_results:
-            return f"No enclosures matching {search_term} found."
-        else:
-            results_string = "\n".join(search_results)
-            return f"The following enclosures matching '{search_term}' were found:\n {results_string}"
-
-    @staticmethod
-    def remove_enclosure() -> str:
-        print(Enclosure.get_enclosure_data())
-        choice = input("Enter the ID of the enclosure you would like to remove: ")
-        if choice not in enclosure_register:
-            return f"No enclosures matching {choice} found."
-        enclosure = enclosure_register[choice]
-        confirmation = input(f"Are you sure you want to remove {enclosure.get_enclosure_id()} - y/n: ").strip().lower()
-        while confirmation not in ['y', 'n']:
-            confirmation = input(f"Invalid entry. Please enter 'y' or 'n: ").strip().lower()
-        if confirmation == 'y':
-            del enclosure_register[choice]
-            return f"Enclosure {choice} removed."
-        else:
-            return f"Removal of enclosure cancelled."
-
-
 
 # Enclosure_1 = Enclosure('Woods', 250)
 # Enclosure_2 = Enclosure('Woods', 250)
