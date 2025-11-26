@@ -1,6 +1,4 @@
 import pytest
-
-import staff
 from staff import Staff, staff_register
 
 class TestStaff:
