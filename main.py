@@ -131,7 +131,10 @@ def update_schedule():
     """Function to update the schedule for a selected employee. Function prompts the user to input the employee ID, providing a full list of employees on invalid input.
     On input of a valid employee ID, the user is presented with the current employee schedule for each day, confirms which day of the week they would like to update, update the user schedule,
     and prints a confirmation message with the updated details on completion."""
-    employee_id = input("Please enter the full Staff ID of the employee you would like to update (e.g. StaffID.1): ")
+    if not staff_register:
+        print(f"No staff are currently on record. Please create a staff member first.")
+        return
+    employee_id = input("Please enter the full Staff ID of the employee you would like to update (e.g. Staff_1): ")
     while employee_id not in staff_register:
         employee_id = input("Please enter a valid staff ID: ")
     employee = staff_register[employee_id]
@@ -244,6 +247,9 @@ def enclosure_search():
         return f"The following enclosures matching '{search_term}' were found:\n {results_string}"
 
 def check_animal():
+    if not animal_register:
+        print("There are currently no animal records. Please create an animal record prior to proceeding.")
+        return
     print(Animal.display_animals())
     animal = input("Enter the ID of the animal to checked: ").lower().strip().capitalize()
     while animal not in animal_register:
@@ -304,7 +310,7 @@ def main_menu():
         print("10. Remove Animal Record")
 
         print("\n--- Staff Management & Health ---")
-        print("11. Create New Staff/Vet")
+        print("11. Create New Staff (Zookeeper or Vet)")
         print("12. Display Staff Details")
         print("13. Search Staff")
         print("14. Update Staff Schedule")
