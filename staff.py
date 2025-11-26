@@ -10,10 +10,10 @@ from abc import ABC
 
 from animal import Animal, animal_register
 
-staff_register = {}
+staff_register = {} # Dictionary to store staff objects as they are created with the staff id as the key and the object as the value.
 
 class Staff(ABC):
-    staff_counter = 1
+    staff_counter = 1 # Counter to create record staff id, which is used as the key in the staff register with the object as the value.
     health_record_counter = 1
     def __init__(self, first_name: str, last_name: str, salary: int, occupation: str, **kwargs):
         super().__init__(**kwargs)
@@ -37,6 +37,7 @@ class Staff(ABC):
 
     @staticmethod
     def get_staff_details():
+        """Method to return staff details. This gathers all the generic attributes with the methods on the child classes retrieving and appending the child specific attributes."""
         staff_details = []
         print(f"{'-' * 15} Staff Details {'-' * 15}")
         print(f"STAFF ID |    Name    |  Salary  |  Occupation")
@@ -49,6 +50,7 @@ class Staff(ABC):
 
     @staticmethod
     def remove_staff():
+        """Method to remove the staff details from the staff details list. Includes input and validation logic to confirm the staff member exists and prompt for deletion confirmation."""
         print(Staff.get_staff_details())
         staff_id = input("Enter the staff ID of the staff you would like to remove: ")
         staff = staff_register.get(staff_id)
@@ -67,6 +69,7 @@ class Staff(ABC):
 
     @staticmethod
     def staff_search():
+        """Method to search for staff details across their name, staff id, and occupation. Creates and returns a list with all matching results."""
         search_results = []
         search_term = input("Enter the employee ID, name, or occupation of the staff you are searching for: ").strip().lower().capitalize()
         for key, value in staff_register.items():
@@ -82,6 +85,7 @@ class Staff(ABC):
 
     @staticmethod
     def create_staff():
+        """Method to create a new staff record. Asks for all relevant details and passes the information to the relevant constructor."""
         roles = {'zookeeper': Zookeeper, 'vet': Vet}
         first_name: str = input("Enter the first name of the employee: ").strip().lower().capitalize()
         last_name: str = input("Enter the last name of the employee: ").strip().lower().capitalize()

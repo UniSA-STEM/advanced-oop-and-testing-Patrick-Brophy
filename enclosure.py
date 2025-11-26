@@ -6,9 +6,9 @@ ID: 110070814
 Username: bropy009
 This is my own work as defined by the University's Academic Integrity Policy.
 """
-enclosure_register = {}
+enclosure_register = {} # Dictionary to store enclosures as they are created, with the enclosure id as the key and the object as the value.
 class Enclosure:
-    counter = 1
+    counter = 1 # Counter to generate IDs for enclosures as they are created, which is increased by 1 as each enclosure is created.
     def __init__(self, biome: str, size: int) -> None:
         self.__id = f"Enclosure_{Enclosure.counter}"
         self.__biome = biome
@@ -34,11 +34,13 @@ class Enclosure:
 
     @staticmethod
     def get_dirty_enclosures():
+        """Method to return a list of enclosures that are dirty."""
         dirty_enclosures = [enclosure.get_enclosure_id() for enclosure in enclosure_register.values() if enclosure.get_is_clean() is False]
         return dirty_enclosures
 
     @staticmethod
     def get_enclosure_data():
+        """Method to return a list of enclosures, including their biome, cleanliness, and if they are occupied by an animal."""
         enclosure_data = []
         for key, value in enclosure_register.items():
             occupancy = value.get_occupancy() if value.get_occupancy() else 'Empty'

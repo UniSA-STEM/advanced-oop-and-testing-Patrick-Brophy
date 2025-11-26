@@ -8,13 +8,13 @@ This is my own work as defined by the University's Academic Integrity Policy.
 """
 from enclosure import enclosure_register
 
-animal_register = {}
+animal_register = {} # Dictionary to store animal objects as they are created, with the animal id as the key and the object as the value.
 from abc import ABC
 
 class Animal(ABC):
     """Abstract base class for animals. Contains generic methods common to all animals. Has been implemented as an Abstract Base Class as all instances of Animal objects need
     to belong to the child classes."""
-    animal_counter = 1
+    animal_counter = 1 # Counter used to generate animal ids. Counter is increased by 1 as each animal object is created.
     def __init__(self, family: str, species: str, name: str, age: int, gender: str, biome: str, diet: str, **kwargs) -> None:
         super().__init__(**kwargs)
         self.__id = f"Animal_{Animal.animal_counter}"
